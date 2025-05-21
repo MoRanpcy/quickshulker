@@ -1,0 +1,21 @@
+{
+  "key.categories.quickshulker": "Quick Shulker",
+  "key.quickshulker.quickshulker": "들고 있던 셜커 상자 열기",
+  "key.quickshulker.config.category.activation": "작동 방법",
+  "key.quickshulker.config.keybinding": "단축키",
+  "key.quickshulker.config.keybind": "아이템 들고있는 상태에서 단축키 누르기",
+  "key.quickshulker.config.rightClick": "아이템 들고있는 상태에서 오른쪽 버튼 누르기",
+  "key.quickshulker.config.keybindInInv": "인벤토리에서 마우스를 올린 상태에서 단축키 누르기",
+  "key.quickshulker.config.rightClickInInv": "인벤토리에서 마우스를 올린 상태에서 오른쪽 버튼 누르기",
+  "key.quickshulker.config.category.options": "옵션",
+  "key.quickshulker.config.rightClickClose": "열린 셜커 상자를 오른쪽 클릭으로 닫기",
+  "key.quickshulker.config.category.bundleing": "꾸러미",
+  "key.quickshulker.config.supportsBundlingInsert": "넣을 아이템을 잡은 상태에서 셜커 상자에 오른쪽 클릭",
+  "key.quickshulker.config.supportsBundlingPickup": "셜커 상자를 잡은 상태에서 넣을 아이템에 오른쪽 클릭",
+  "key.quickshulker.config.supportsBundlingExtract": "셜커 상자를 잡은 상태에서 빈 슬롯에 오른쪽 클릭",
+  "key.quickshulker.config.category.enabled": "적용 아이템",
+  "key.quickshulker.config.quickShulkerBox": "셜커 상자 열기 사용",
+  "key.quickshulker.config.quickCraftingTable": "작업대 열기 사용",
+  "key.quickshulker.config.quickStonecutter": "석재 절단기 열기 사용",
+  "key.quickshulker.config.quickEChest": "엔더 상자 열기 사용"
+}
