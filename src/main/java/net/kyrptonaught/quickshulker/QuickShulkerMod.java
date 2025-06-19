@@ -2,12 +2,14 @@ package net.kyrptonaught.quickshulker;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.quickshulker.api.*;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.kyrptonaught.quickshulker.event.EventListeners;
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
+import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.kyrptonaught.quickshulker.network.OpenShulkerPacket;
 import net.kyrptonaught.quickshulker.network.QuickBundlePacket;
 import net.minecraft.block.CraftingTableBlock;
@@ -36,7 +38,6 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
         config.load();
         OpenShulkerPacket.registerReceivePacket();
         QuickBundlePacket.registerReceivePacket();
-        EnderChestS2CSyncPacket.registerReceivePacket();
         EventListeners.registerEventListeners();
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
@@ -54,6 +55,11 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             }
             return ActionResult.PASS;
         });
+
+        PayloadTypeRegistry.playS2C().register(OpenInventoryPacket.OPEN_INV_ID, OpenInventoryPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(EnderChestS2CSyncPacket.S2CEChestContentPacket.S2C_ECHEST_CONTENT_PACKET_ID, EnderChestS2CSyncPacket.S2CEChestContentPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(EnderChestS2CSyncPacket.S2CEChestSlotPacket.S2C_ECHEST_SLOT_PACKET_ID, EnderChestS2CSyncPacket.S2CEChestSlotPacket.CODEC);
+
         FabricLoader.getInstance().getEntrypoints(MOD_ID, RegisterQuickShulker.class).forEach(RegisterQuickShulker::registerProviders);
     }
 
