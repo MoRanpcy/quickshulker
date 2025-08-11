@@ -2,7 +2,7 @@
 
 Quickly open a held shulker box with the press of a key!
 
-This project updates [kyrptonaught](https://github.com/kyrptonaught)'s [QuickShulker](https://github.com/kyrptonaught/quickshulker.git) mod to higher Minecraft versions，and fixes something.
+This project updates [kyrptonaught](https://github.com/MoRanpcy)'s [QuickShulker](https://github.com/MoRanpcy/quickshulker.git) mod to higher Minecraft versions，and fixes something.
 
 ## Released Version
 
