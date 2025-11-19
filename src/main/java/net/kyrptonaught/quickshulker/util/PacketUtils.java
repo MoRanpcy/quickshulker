@@ -1,4 +1,4 @@
-package net.kyrptonaught.quickshulker.api;
+package net.kyrptonaught.quickshulker.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;

@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Language;
 import net.minecraft.util.math.ColorHelper;
 
@@ -43,6 +44,10 @@ public abstract class ConfigItem<T> {
         return this;
     }
 
+    public Text getTitleText(){
+        return fieldTitle;
+    }
+
     public ConfigItem<?> setTitleText(Text title) {
         this.fieldTitle = title;
         return this;
@@ -56,6 +61,10 @@ public abstract class ConfigItem<T> {
         }
 
         return this;
+    }
+
+    public ConfigItem<?> setNeedMod(String id){
+        return setToolTip(Text.translatable("key.quickshulker.config.needMod", Text.literal(id).formatted(Formatting.ITALIC)));
     }
 
     public ConfigItem<?> setToolTip(Text toolTip) {
@@ -146,7 +155,7 @@ public abstract class ConfigItem<T> {
         int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
         int height = y + getHeaderSize();
         if (mouseY > y && mouseY < height)
-            context.fill(0, y - 1, width, height + 1, ColorHelper.getArgb(255, 55, 55, 55));
+            context.fill(0, y - 1, width, height + 1, ColorHelper.getArgb(50, 255, 255, 255));
 
         context.drawText(MinecraftClient.getInstance().textRenderer, this.fieldTitle, x, y + 6, -1, true);
 

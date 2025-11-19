@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "net.kyrptonaught.kyrptconfig.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "displaykeybind.GameOptions$VisitorMixin",
+    "displaykeybind.GameOptionsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
