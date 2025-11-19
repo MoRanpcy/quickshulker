@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "quickshulker",
-  "version": "2.1.1-1.21.2",
+  "version": "${version}",
   "name": "Quick Shulker",
   "description": "Quickly open Shulker boxes and more",
   "authors": [
@@ -32,7 +32,15 @@
       "environment": "*"
     },
     {
+      "config": "quickshulker-compat.mixins.json",
+      "environment": "*"
+    },
+    {
       "config": "shulkerutils.mixins.json",
+      "environment": "client"
+    },
+    {
+      "config": "kyrptconfig.mixins.json",
       "environment": "client"
     }
   ],
@@ -47,7 +55,7 @@
       "net.kyrptonaught.quickshulker.client.QuickShulkerModClient"
     ],
     "modmenu": [
-      "net.kyrptonaught.quickshulker.config.modmenu.ModMenuIntegration"
+      "net.kyrptonaught.quickshulker.compat.modmenu.ModMenuIntegration"
     ]
   },
   "depends": {
