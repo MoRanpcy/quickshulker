@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.kyrptonaught.quickshulker.mixin.compat",
+  "plugin": "net.kyrptonaught.quickshulker.mixin.plugin.ModsMixinConfigPlugin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "peek.ShulkerBoxScreenHandlerMixin",
+    "reinfshulker.ReinforcingMaterialSettingsMixin",
+    "reinfshulker.RenifShulkerMixin"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

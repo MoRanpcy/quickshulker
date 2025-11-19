@@ -1,6 +1,6 @@
 package net.kyrptonaught.quickshulker.mixin;
 
-import net.kyrptonaught.quickshulker.BundleHelper;
+import net.kyrptonaught.quickshulker.util.BundleHelper;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.network.QuickBundlePacket;
@@ -29,6 +29,8 @@ public abstract class ItemMixin {
                 QuickBundlePacket.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), insertStack);
                 BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
             }
+        } else if (BundleHelper.shouldAttemptTransfer(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingTransfer)) {
+            BundleHelper.transferItemsToShulker(player, hostStack, insertStack, cir);
         }
     }
 
@@ -37,10 +39,10 @@ public abstract class ItemMixin {
         ItemStack insertStack = slot.getStack();
         if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingPickup)) {//bundle stack into held item
             if (ShulkerUtils.isShulkerItem(hostStack) || !player.getWorld().isClient) {
-                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
+                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
             } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
-                QuickBundlePacket.BundleIntoHeld.sendPacket(insertStack, hostStack);
-                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, cir);
+                QuickBundlePacket.BundleIntoHeld.sendPacket(insertStack, hostStack, ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot));
+                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
                 //QuickBundlePacket.sendCreativeSlotUpdate(insertStack, slot); // It doesn't seem to be doing anything
             }
         } else if (BundleHelper.shouldAttemptUnBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingExtract)) {//unbundle held stack into slot

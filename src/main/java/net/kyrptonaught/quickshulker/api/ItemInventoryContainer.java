@@ -1,4 +1,4 @@
-package net.kyrptonaught.quickshulker;
+package net.kyrptonaught.quickshulker.api;
 
 public interface ItemInventoryContainer {
 

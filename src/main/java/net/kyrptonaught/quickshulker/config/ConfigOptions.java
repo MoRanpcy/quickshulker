@@ -9,6 +9,8 @@ public class ConfigOptions implements AbstractConfigFile {
     public static String defualtKeybind = "key.keyboard.k";
     @Comment("Activation key")
     public CustomKeyBinding keybinding = CustomKeyBinding.configDefault(QuickShulkerMod.MOD_ID, "key.keyboard.k");
+    @Comment("Open setting gui key")
+    public CustomKeyBinding openSettingGui = CustomKeyBinding.configDefault(QuickShulkerMod.MOD_ID, "key.keyboard.keypad.add");
     @Comment("Right Clicking with shulker in hand opens it")
     public boolean rightClickToOpen = true;
     @Comment("Hitting the keybind with shulker in hand opens it")
@@ -24,6 +26,8 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean supportsBundlingInsert = true;
     @Comment("Right Clicking an item with a shulker inserts it")
     public boolean supportsBundlingPickup = true;
+    @Comment("Right Clicking an shulker with a shulker transfer item")
+    public boolean supportsBundlingTransfer = true;
     @Comment("Right Clicking an empty slot with a shulker extracts an item")
     public boolean supportsBundlingExtract = true;
 
@@ -35,5 +39,4 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean quickStonecutter = true;
     @Comment("Enable opening EnderChest")
     public boolean quickEChest = true;
-
 }
