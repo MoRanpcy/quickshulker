@@ -17,7 +17,12 @@ loom {
 
 repositories {
 	maven { url 'https://maven.fabricmc.net' }
-	maven { url 'https://maven.kyrptonaught.dev' }
+	maven { url 'https://cursemaven.com' }
+	maven { url "https://maven.shedaniel.me/" }
+	maven { url 'https://maven.fallenbreath.me/releases' }
+	maven { url 'https://jitpack.io' }
+//	maven { url 'https://maven.kyrptonaught.dev' }
+	maven { url 'https://raw.githubusercontent.com/Aton-Kish/mcmod/maven' }
 	maven {
 		name = "Terraformers"
 		url = "https://maven.terraformersmc.com/"
@@ -30,12 +35,26 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	modImplementation include("net.kyrptonaught:kyrptconfig:1.6.1-1.21.4") { exclude group: "net.fabricmc.fabric-api" }
+//	modImplementation include("net.kyrptonaught:kyrptconfig:1.6.1-1.21.4") { exclude group: "net.fabricmc.fabric-api" }
 
 	modImplementation("com.terraformersmc:modmenu:13.0.0") { exclude group: "net.fabricmc.fabric-api" }
 
-	testImplementation 'junit:junit:4.13.1';
+	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:6125897") { exclude group: "net.fabricmc.fabric-api" }
+	modImplementation "atonkish.reinfcore:reinforced-core:4.0.4+1.21.4"
+
+//	testImplementation 'junit:junit:4.13.1';
+	modImplementation include("me.fallenbreath:conditional-mixin-fabric:0.6.4")
 	compileOnly group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2";
+}
+
+processResources {
+	inputs.property "version", project.mod_version
+
+	filesMatching("fabric.mod.json") {
+		expand (
+				"version": project.mod_version
+		)
+	}
 }
 
 tasks.withType(JavaCompile).configureEach {
