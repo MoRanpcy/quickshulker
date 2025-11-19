@@ -6,12 +6,12 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.config.ConfigManager;
 import net.kyrptonaught.quickshulker.api.*;
+import net.kyrptonaught.quickshulker.compat.ModIds;
+import net.kyrptonaught.quickshulker.compat.ModUtils;
+import net.kyrptonaught.quickshulker.compat.reinfshulker.ReinfshulkerOpenableRegistry;
 import net.kyrptonaught.quickshulker.config.ConfigOptions;
 import net.kyrptonaught.quickshulker.event.EventListeners;
-import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
-import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
-import net.kyrptonaught.quickshulker.network.OpenShulkerPacket;
-import net.kyrptonaught.quickshulker.network.QuickBundlePacket;
+import net.kyrptonaught.quickshulker.network.*;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -101,6 +101,10 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), Text.translatable("container.stonecutter")))))
                     .register();
+
+        if(ModUtils.isModLoad(ModIds.reinfshulker) && QuickShulkerMod.getConfig().quickShulkerBox) {
+            ReinfshulkerOpenableRegistry.registerProviders();
+        }
     }
 
 }

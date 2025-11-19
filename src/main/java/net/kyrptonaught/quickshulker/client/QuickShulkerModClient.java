@@ -11,14 +11,14 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.kyrptconfig.keybinding.DisplayOnlyKeyBind;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
-import net.kyrptonaught.quickshulker.api.EnderChestSyncHandler;
+import net.kyrptonaught.quickshulker.event.KeyBindingRegister;
+import net.kyrptonaught.quickshulker.util.EnderChestSyncHandler;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulkerClient;
+import net.kyrptonaught.quickshulker.event.ModKeyCallback;
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EnderChestInventory;
 import net.minecraft.util.Identifier;
 
@@ -27,17 +27,8 @@ public class QuickShulkerModClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientTickEvents.START_WORLD_TICK.register(clientWorld -> {
-            if (MinecraftClient.getInstance().currentScreen == null && QuickShulkerMod.getConfig().keybind) {
-                PlayerEntity player = MinecraftClient.getInstance().player;
-                if (getKeybinding().isKeybindPressed() && player != null && !player.isSpectator()) {
-                    if (player.getMainHandStack().isEmpty() && !player.getOffHandStack().isEmpty())
-                        ClientUtil.CheckAndSend(player.getOffHandStack(), 45);
-                    else
-                        ClientUtil.CheckAndSend(player.getMainHandStack(), 36 + player.getInventory().getSelectedSlot());
-                }
-            }
-        });
+        ClientTickEvents.START_WORLD_TICK.register(ModKeyCallback::onKeyPressed);
+        KeyBindingRegister.register();
 
         PayloadTypeRegistry.playC2S().register(OpenInventoryPacket.OPEN_INV_ID, OpenInventoryPacket.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(OpenInventoryPacket.OPEN_INV_ID, (payload, context) -> {
@@ -60,13 +51,6 @@ public class QuickShulkerModClient implements ClientModInitializer {
         });
 
         FabricLoader.getInstance().getEntrypoints(QuickShulkerMod.MOD_ID + "_client", RegisterQuickShulkerClient.class).forEach(RegisterQuickShulkerClient::registerClient);
-
-        KeyBindingHelper.registerKeyBinding(new DisplayOnlyKeyBind(
-                "key.quickshulker.config.keybinding",
-                KeyBinding.Category.create(Identifier.of(QuickShulkerMod.MOD_ID, "main")),
-                getKeybinding(),
-                setKey -> QuickShulkerMod.config.save()
-        ));
     }
 
     public static CustomKeyBinding getKeybinding() {
