@@ -2,7 +2,7 @@ package net.kyrptonaught.quickshulker.network;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
-import net.kyrptonaught.quickshulker.api.PacketUtils;
+import net.kyrptonaught.quickshulker.util.PacketUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;

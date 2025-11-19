@@ -1,4 +1,4 @@
-package net.kyrptonaught.quickshulker.api;
+package net.kyrptonaught.quickshulker.util;
 
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
 import net.minecraft.entity.player.PlayerEntity;

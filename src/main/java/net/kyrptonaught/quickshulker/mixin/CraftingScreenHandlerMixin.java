@@ -1,6 +1,6 @@
 package net.kyrptonaught.quickshulker.mixin;
 
-import net.kyrptonaught.quickshulker.ItemInventoryContainer;
+import net.kyrptonaught.quickshulker.api.ItemInventoryContainer;
 import net.kyrptonaught.quickshulker.api.Util;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

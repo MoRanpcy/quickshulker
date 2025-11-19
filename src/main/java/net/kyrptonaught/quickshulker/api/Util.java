@@ -1,6 +1,5 @@
 package net.kyrptonaught.quickshulker.api;
 
-import net.kyrptonaught.quickshulker.ItemInventoryContainer;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.minecraft.entity.player.PlayerEntity;
@@ -76,7 +75,8 @@ public class Util {
             }
 
             public void isValid() {
-                if (!areItemsEqual(stack, player.getInventory().getStack(slotID))) {
+                ItemStack stackInSlot = player.getInventory().getStack(slotID);
+                if (stackInSlot.isEmpty() || !areItemsEqual(stack, stackInSlot)) {
                     ((ServerPlayerEntity) player).closeHandledScreen();
                 }
             }

@@ -17,6 +17,11 @@ loom {
 
 repositories {
 	maven { url 'https://maven.fabricmc.net' }
+	maven { url 'https://cursemaven.com' }
+	maven { url "https://maven.shedaniel.me/" }
+	maven { url 'https://maven.fallenbreath.me/releases' }
+	maven { url 'https://jitpack.io' }
+	maven { url 'https://raw.githubusercontent.com/Aton-Kish/mcmod/maven' }
 	maven {
 		name = "Terraformers"
 		url = "https://maven.terraformersmc.com/"
@@ -31,7 +36,22 @@ dependencies {
 
 	modImplementation("com.terraformersmc:modmenu:12.0.0") { exclude group: "net.fabricmc.fabric-api" }
 
-	compileOnly group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2";
+	modImplementation ("curse.maven:peek-693418:5837969") { exclude group: "net.fabricmc.fabric-api" }
+	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:6047615") { exclude group: "net.fabricmc.fabric-api" }
+	modImplementation "atonkish.reinfcore:reinforced-core:4.0.3+1.21.3"
+
+	modImplementation include("me.fallenbreath:conditional-mixin-fabric:0.6.4")
+	compileOnly group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2"
+}
+
+processResources {
+	inputs.property "version", project.mod_version
+
+	filesMatching("fabric.mod.json") {
+		expand (
+				"version": project.mod_version
+		)
+	}
 }
 
 tasks.withType(JavaCompile).configureEach {

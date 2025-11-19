@@ -1,6 +1,5 @@
 package net.kyrptonaught.kyrptconfig.config.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -40,7 +39,7 @@ public class ConfigScreen extends Screen {
             this.client.setScreen(previousScreen);
         }));
         for (ConfigSection section : sections) {
-            section.init(client, width, height - 55 - 30);
+            section.init(client, width, height - 57 - 30);
         }
 
         adjustForHorizontalScroll(this.width);
@@ -105,9 +104,10 @@ public class ConfigScreen extends Screen {
                 section.sectionSelectionBTN.setX(section.sectionSelectionBTN.getX() + scrollLeftBTN.getWidth() + 3);
             }
 
-
-            scrollLeftBTN.active = scrollLeftBTN.visible = true;
-            scrollRightBTN.active = scrollRightBTN.visible = true;
+            scrollLeftBTN.visible = true;
+            scrollRightBTN.visible = true;
+            scrollLeftBTN.active = sections.getFirst().sectionSelectionBTN.getX() < scrollLeftBTN.getRight() + 3;
+            scrollRightBTN.active = lastBTN.getRight() + 3 > scrollRightBTN.getX();
             horizontalScrollOffset = 0;
             return true;
         }
@@ -161,30 +161,24 @@ public class ConfigScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.getMatrices().push();
-        RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
-
-        renderBackgroundTexture(context);
-        context.fillGradient(0, 0, this.width, this.height, -435154928, -233828336);
+        super.renderBackground(context, mouseX, mouseY, delta);
 
         ConfigSection section = sections.get(selectedSection);
 
-        section.render(context, 55, mouseX, mouseY, delta);
-
-        context.getMatrices().translate(0, 0, 1);
-
-        drawDirtTextureBlurred(context, 0 , 0 ,this.width , 55);
-        drawDirtTextureBlurred(context, 0 , this.height - 30 , this.width , 30);
+        context.enableScissor(0, 57, this.width, this.height - 30);
+        context.fillGradient(0, 57, this.width, this.height, 1744830464, 1744830464);
+        section.render(context, 57, mouseX, mouseY, delta);
+        context.disableScissor();
 
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 13, 0xffffff);
+        drawHeaderAndFooterSeparators(context);
 
         boolean noHover = scrollLeftBTN.detectHover(mouseX, mouseY) | scrollRightBTN.detectHover(mouseX, mouseY);
-        for (int i = 0; i < sections.size(); i++) {
-            NotSuckyButton selectionBTN = sections.get(i).sectionSelectionBTN;
-            selectionBTN.active = i != selectedSection;
-
-            if (horizontalScrollOffset > -1) {
+        if (horizontalScrollOffset > -1) {
+            context.enableScissor(scrollLeftBTN.getRight() + 1, scrollLeftBTN.getY(), scrollRightBTN.getX() - 1, scrollRightBTN.getBottom());
+            for (int i = 0; i < sections.size(); i++) {
+                NotSuckyButton selectionBTN = sections.get(i).sectionSelectionBTN;
+                selectionBTN.active = i != selectedSection;
                 if (i == 0) {
                     selectionBTN.setX(scrollLeftBTN.getX() + scrollLeftBTN.getWidth() + 3 - horizontalScrollOffset);
                 } else {
@@ -192,19 +186,17 @@ public class ConfigScreen extends Screen {
                     selectionBTN.setX(previousBTN.getX() + previousBTN.getWidth() + 3);
                 }
                 selectionBTN.disableHover = noHover;
+                selectionBTN.render(context, mouseX, mouseY, delta);
             }
-            selectionBTN.render(context, mouseX, mouseY, delta);
-        }
-
-        if (horizontalScrollOffset > -1) {
-            context.getMatrices().translate(0, 0, 1);
-            drawDirtTextureBlurred(context, 0 , 0 ,scrollLeftBTN.getRight() + 1, 55);
-            drawDirtTextureBlurred(context, scrollRightBTN.getX() - 1 , 0 ,this.width - (scrollRightBTN.getX()) + 1, 55);
-
+            context.disableScissor();
             scrollLeftBTN.render(context, mouseX, mouseY, delta);
             scrollRightBTN.render(context, mouseX, mouseY, delta);
-
-            context.getMatrices().translate(0, 0, -1);
+        }else{
+            for (int i = 0; i < sections.size(); i++) {
+                NotSuckyButton selectionBTN = sections.get(i).sectionSelectionBTN;
+                selectionBTN.active = i != selectedSection;
+                selectionBTN.render(context, mouseX, mouseY, delta);
+            }
         }
 
         if (section.calculateSectionHeight() > 0) {
@@ -215,16 +207,15 @@ public class ConfigScreen extends Screen {
             height = MathHelper.clamp(height, 20, section.height - 8);
 
             float percentage = (float) -section.scrollOffset / section.calculateSectionHeight();
-            int y = MathHelper.lerp(percentage, 55, this.height - 30 - height);
+            int y = MathHelper.lerp(percentage, 57, this.height - 30 - height);
 
-            context.fill(x, 55, x + 6, this.height - 30, -16777216);
+            context.fill(x, 57, x + 6, this.height - 30, -16777216);
             context.drawGuiTexture(RenderLayer::getGuiTextured, SCROLLER_TEXTURE, x, y, 6, height);
         }
 
-        section.render2(context, 55, mouseX, mouseY, delta);
+        section.render2(context, 57, mouseX, mouseY, delta);
 
         super.render(context, mouseX, mouseY, delta);
-        context.getMatrices().pop();
     }
 
     @Override
@@ -233,6 +224,11 @@ public class ConfigScreen extends Screen {
 
     private void renderBackgroundTexture(DrawContext context) {
         context.drawTexture(RenderLayer::getGuiTextured, OPTIONS_BACKGROUND_TEXTURE, 0, 0, 0, 0, this.width, this.height, 32, 32);
+    }
+
+    private void drawHeaderAndFooterSeparators(DrawContext context) {
+        context.drawTexture(RenderLayer::getGuiTextured, Screen.HEADER_SEPARATOR_TEXTURE, 0, 55, 0.0f, 0.0f, this.width, 2, 32, 2);
+        context.drawTexture(RenderLayer::getGuiTextured, Screen.FOOTER_SEPARATOR_TEXTURE, 0, this.height -30, 0.0f, 0.0f, this.width, 2, 32, 2);
     }
 
     private void drawDirtTextureBlurred(DrawContext context, int x, int y, int width, int height) {
