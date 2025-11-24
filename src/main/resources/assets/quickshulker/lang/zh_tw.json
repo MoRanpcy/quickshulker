@@ -16,6 +16,7 @@
   "key.quickshulker.config.supportsBundlingPickup": "拖動潛影盒右擊物品以放入",
   "key.quickshulker.config.supportsBundlingTransfer": "拖動潛影盒右擊潛影盒以轉移",
   "key.quickshulker.config.supportsBundlingExtract": "拖動潛影盒右擊空槽位以取出",
+  "key.quickshulker.config.supportsMouseDragged": "右鍵拖動潛影盒批量放入或者取出物品",
   "key.quickshulker.config.category.enabled": "啟用的物品",
   "key.quickshulker.config.quickShulkerBox": "啟用打開潛影盒",
   "key.quickshulker.config.quickCraftingTable": "啟用打開工作臺",
