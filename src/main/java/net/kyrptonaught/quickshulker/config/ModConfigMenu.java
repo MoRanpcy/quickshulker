@@ -33,6 +33,7 @@ public class ModConfigMenu {
         subItem.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.supportsBundlingPickup"), options.supportsBundlingPickup, true).setSaveConsumer(value -> options.supportsBundlingPickup = value));
         subItem.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.supportsBundlingTransfer"), options.supportsBundlingTransfer, true).setSaveConsumer(value -> options.supportsBundlingTransfer = value));
         subItem.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.supportsBundlingExtract"), options.supportsBundlingExtract, true).setSaveConsumer(value -> options.supportsBundlingExtract = value));
+        subItem.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.supportsMouseDragged"), options.supportsMouseDragged, true).setSaveConsumer(value -> options.supportsMouseDragged = value));
 
         ConfigSection enabledSection = new ConfigSection(configScreen, Text.translatable("key.quickshulker.config.category.enabled"));
         enabledSection.addConfigItem(new BooleanItem(Text.translatable("key.quickshulker.config.quickShulkerBox"), options.quickShulkerBox, true).setSaveConsumer(value -> options.quickShulkerBox = value).setRequiresRestart());

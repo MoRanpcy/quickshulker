@@ -4,7 +4,6 @@
   "plugin": "net.kyrptonaught.quickshulker.mixin.plugin.ModsMixinConfigPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "peek.ShulkerBoxScreenHandlerMixin",
     "reinfshulker.ReinforcingMaterialSettingsMixin",
     "reinfshulker.RenifShulkerMixin"
   ],
