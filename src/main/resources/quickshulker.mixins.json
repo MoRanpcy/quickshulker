@@ -6,7 +6,9 @@
     "ContainerMixin",
     "CraftingScreenHandlerMixin",
     "ItemMixin",
-    "ContainerOpenMixin"
+    "ContainerOpenMixin",
+    "HandledScreenInvoker",
+    "HandledScreenMixin"
   ],
   "client": [
     "ScreenMixin",

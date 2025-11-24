@@ -9,7 +9,7 @@ public class ConfigOptions implements AbstractConfigFile {
     public static String defualtKeybind = "key.keyboard.k";
     @Comment("Activation key")
     public CustomKeyBinding keybinding = CustomKeyBinding.configDefault(QuickShulkerMod.MOD_ID, "key.keyboard.k");
-    @net.kyrptonaught.jankson.Comment("Open setting gui key")
+    @Comment("Open setting gui key")
     public CustomKeyBinding openSettingGui = CustomKeyBinding.configDefault(QuickShulkerMod.MOD_ID, "key.keyboard.keypad.add");
     @Comment("Right Clicking with shulker in hand opens it")
     public boolean rightClickToOpen = true;
@@ -26,10 +26,12 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean supportsBundlingInsert = true;
     @Comment("Right Clicking an item with a shulker inserts it")
     public boolean supportsBundlingPickup = true;
-    @net.kyrptonaught.jankson.Comment("Right Clicking an shulker with a shulker transfer item")
+    @Comment("Right Clicking a shulker with a shulker transfer items")
     public boolean supportsBundlingTransfer = true;
     @Comment("Right Clicking an empty slot with a shulker extracts an item")
     public boolean supportsBundlingExtract = true;
+    @Comment("Right Clicking and Dragging with a shulker to bulk insert or extract items")
+    public boolean supportsMouseDragged = true;
 
     @Comment("Enable opening Shulker Boxes")
     public boolean quickShulkerBox = true;
