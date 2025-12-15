@@ -1,25 +1,23 @@
 package net.kyrptonaught.kyrptconfig.config.screen;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ButtonTextures;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
+import net.minecraft.text.Style;
+import net.minecraft.text.Texts;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.ColorHelper;
 
 public class NotSuckyButton extends ButtonWidget {
     int buttonColor = -1;
     public boolean disableHover = false;
     private static final ButtonTextures TEXTURES = new ButtonTextures(Identifier.of("widget/button"), Identifier.of("widget/button_disabled"), Identifier.of("widget/button_highlighted"));
 
-    public NotSuckyButton(int x, int y, int width, int height, Text message, PressAction onPress) {
+    public NotSuckyButton(int x, int y, int width, int height, net.minecraft.text.Text message, PressAction onPress) {
         super(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER);
     }
 
     public void setButtonColor(int color) {
+        this.setMessage(Texts.withStyle(this.getMessage(), Style.EMPTY.withColor(color)));
         this.buttonColor = color;
     }
 
@@ -28,23 +26,10 @@ public class NotSuckyButton extends ButtonWidget {
     }
 
     @Override
-    public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        //This can fix text rendering over the wrong btn
-        //context.getMatrices().translate(0, 0,  1);
-
+    protected void drawIcon(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         if (disableHover) hovered = false;
 
-        context.drawGuiTexture(
-                RenderPipelines.GUI_TEXTURED,
-                TEXTURES.get(this.active, this.isSelected()),
-                this.getX(),
-                this.getY(),
-                this.getWidth(),
-                this.getHeight(),
-                ColorHelper.getWhite(this.alpha));
-
-        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        int i = ColorHelper.withAlpha(this.alpha, this.active ? buttonColor : -6250336);
-        drawMessage(context, textRenderer, i);
+        this.drawButton(context);
+        this.drawLabel(context.getTextConsumer());
     }
 }

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.13-SNAPSHOT'
+	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -34,9 +34,9 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation ("com.terraformersmc:modmenu:16.0.0-rc.1") { exclude group: "net.fabricmc.fabric-api" }
-	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:7225066") { exclude group: "net.fabricmc.fabric-api" }
-	modImplementation "atonkish.reinfcore:reinforced-core:4.0.8+1.21.10"
+	modImplementation ("com.terraformersmc:modmenu:17.0.0-alpha.1") { exclude group: "net.fabricmc.fabric-api" }
+//	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:7225066") { exclude group: "net.fabricmc.fabric-api" }
+//	modImplementation "atonkish.reinfcore:reinforced-core:4.0.8+1.21.10"
 
 	modImplementation include("me.fallenbreath:conditional-mixin-fabric:0.6.4")
 	compileOnly group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2"

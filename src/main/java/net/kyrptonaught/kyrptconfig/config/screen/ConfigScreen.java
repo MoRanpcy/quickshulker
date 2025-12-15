@@ -42,7 +42,7 @@ public class ConfigScreen extends Screen {
             this.client.setScreen(previousScreen);
         }));
         for (ConfigSection section : sections) {
-            section.init(client, width, height - 57 - 30);
+            section.init(width, height - 57 - 30);
         }
 
         adjustForHorizontalScroll(this.width);

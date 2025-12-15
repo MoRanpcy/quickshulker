@@ -20,6 +20,7 @@ Click on the link below to download.
 * [2.7.2-1.21.8](https://github.com/MoRanpcy/quickshulker/releases/download/2.7.2-1.21.8/quickshulker-2.7.2-1.21.8.jar)
 * [2.8.2-1.21.9](https://github.com/MoRanpcy/quickshulker/releases/download/2.8.2-1.21.9/quickshulker-2.8.2-1.21.9.jar)
 * [2.9.1-1.21.10](https://github.com/MoRanpcy/quickshulker/releases/download/2.9.1-1.21.10/quickshulker-2.9.1-1.21.10.jar)
+* [2.10.0-1.21.11](https://github.com/MoRanpcy/quickshulker/releases/download/2.10.0-1.21.11/quickshulker-2.10.0-1.21.11.jar)
 
 ## Beta
 
