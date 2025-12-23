@@ -1,5 +1,6 @@
 package net.kyrptonaught.quickshulker.util;
 
+import net.kyrptonaught.quickshulker.mixin.SimpleInventoryAccessor;
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
@@ -9,6 +10,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.collection.DefaultedList;
 
 import java.util.List;
 
@@ -37,11 +39,30 @@ public class EnderChestSyncHandler {
 
     public static void setEnderChestContent(PlayerEntity player, List<ItemStack> itemStacks){
         SimpleInventory enderChestInventory = player.getEnderChestInventory();
-        // safeguard against mods only changing ender chest size on one side
-        int size = Math.min(itemStacks.size(), enderChestInventory.size());
-        for(int i = 0; i < size; i++){
-            enderChestInventory.setStack(i, itemStacks.get(i));
+        resizeInventory(enderChestInventory, itemStacks.size());
+        for(int i = 0; i < enderChestInventory.size(); i++){
+            ItemStack stack = i < itemStacks.size() ? itemStacks.get(i) : ItemStack.EMPTY;
+            enderChestInventory.setStack(i, stack);
         }
+    }
+
+    public static void ensureInventoryCapacity(SimpleInventory inventory, int minSize) {
+        if (minSize > inventory.size()) {
+            resizeInventory(inventory, minSize);
+        }
+    }
+
+    private static void resizeInventory(SimpleInventory inventory, int newSize) {
+        if (newSize < 0 || inventory.size() == newSize) return;
+        SimpleInventoryAccessor accessor = (SimpleInventoryAccessor) inventory;
+        DefaultedList<ItemStack> oldStacks = accessor.getHeldStacks();
+        DefaultedList<ItemStack> newStacks = DefaultedList.ofSize(newSize, ItemStack.EMPTY);
+        int copyAmount = Math.min(oldStacks.size(), newSize);
+        for (int i = 0; i < copyAmount; i++) {
+            newStacks.set(i, oldStacks.get(i));
+        }
+        accessor.setHeldStacks(newStacks);
+        accessor.setSize(newSize);
     }
 
 }

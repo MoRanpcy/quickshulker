@@ -14,7 +14,9 @@ import net.minecraft.block.EnderChestBlock;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.StonecutterBlock;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
 import net.minecraft.text.Text;
@@ -80,7 +82,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
                     .supportsBundleing(true)
                     .ignoreSingleStackCheck(true)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
-                            GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), Text.translatable("container.enderchest")))))
+                            createEnderChestScreenHandler(i, playerInventory, playerEntity), Text.translatable("container.enderchest")))))
                     .register();
 
         if (getConfig().quickCraftingTables)
@@ -98,6 +100,29 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), Text.translatable("container.stonecutter")))))
                     .register();
+    }
+
+    private static ScreenHandler createEnderChestScreenHandler(int syncId, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        Inventory enderChestInventory = playerEntity.getEnderChestInventory();
+        int rows = getRowCount(enderChestInventory.size());
+        return new GenericContainerScreenHandler(getGenericScreenType(rows), syncId, playerInventory, enderChestInventory, rows);
+    }
+
+    private static int getRowCount(int inventorySize) {
+        int rows = inventorySize / 9;
+        if (inventorySize % 9 != 0) rows++;
+        return Math.max(1, Math.min(6, rows));
+    }
+
+    private static ScreenHandlerType<GenericContainerScreenHandler> getGenericScreenType(int rows) {
+        return switch (rows) {
+            case 1 -> ScreenHandlerType.GENERIC_9X1;
+            case 2 -> ScreenHandlerType.GENERIC_9X2;
+            case 3 -> ScreenHandlerType.GENERIC_9X3;
+            case 4 -> ScreenHandlerType.GENERIC_9X4;
+            case 5 -> ScreenHandlerType.GENERIC_9X5;
+            default -> ScreenHandlerType.GENERIC_9X6;
+        };
     }
 
 }

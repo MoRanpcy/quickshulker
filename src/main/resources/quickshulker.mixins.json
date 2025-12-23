@@ -8,7 +8,8 @@
     "ItemMixin",
     "ContainerOpenMixin",
     "HandledScreenInvoker",
-    "HandledScreenMixin"
+    "HandledScreenMixin",
+    "SimpleInventoryAccessor"
   ],
   "client": [
     "ScreenMixin",

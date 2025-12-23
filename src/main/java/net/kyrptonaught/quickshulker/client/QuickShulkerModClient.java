@@ -46,6 +46,7 @@ public class QuickShulkerModClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(EnderChestS2CSyncPacket.S2CEChestSlotPacket.S2C_ECHEST_SLOT_PACKET_ID, (payload, context) -> {
             context.client().execute(() -> {
                 EnderChestInventory enderChestInventory = context.player().getEnderChestInventory();
+                EnderChestSyncHandler.ensureInventoryCapacity(enderChestInventory, payload.slotId() + 1);
                 enderChestInventory.setStack(payload.slotId(), payload.itemStack());
             });
         });
