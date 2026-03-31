@@ -15,10 +15,7 @@ import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.kyrptonaught.quickshulker.network.OpenShulkerPacket;
 import net.kyrptonaught.quickshulker.network.QuickBundlePacket;
-import net.minecraft.block.CraftingTableBlock;
-import net.minecraft.block.EnderChestBlock;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.block.StonecutterBlock;
+import net.minecraft.block.*;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -45,13 +42,14 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
 
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getStackInHand(hand);
-            if (!world.isClient) {
-                if (QuickShulkerMod.getConfig().rightClickToOpen) {
-                    if (Util.isOpenableItem(stack) && Util.canOpenInHand(stack)) {
+            if (QuickShulkerMod.getConfig().rightClickToOpen) {
+                if (Util.isOpenableItem(stack) && Util.canOpenInHand(stack)) {
+                    if(world.isClient()){
+                        return TypedActionResult.success(stack);
+                    }else{
                         if (hand == Hand.MAIN_HAND)
                             Util.openItem(player, 0, player.getInventory().selectedSlot);
                         else Util.openItem(player, 0, PlayerInventory.OFF_HAND_SLOT);
-
                         return TypedActionResult.success(stack);
                     }
                 }
@@ -103,6 +101,13 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
                     .ignoreSingleStackCheck(true)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())), Text.translatable("container.stonecutter")))))
+                    .register();
+
+        if(getConfig().quickAnvil)
+            new QuickOpenableRegistry.Builder()
+                    .setItem(AnvilBlock.class)
+                    .setOpenAction((playerEntity, stack) -> playerEntity.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, player) ->
+                            new AnvilScreenHandler(i, playerInventory, new ModScreenHandlerContext(playerEntity, stack)), Text.translatable("container.repair"))))
                     .register();
 
         if(ModUtils.isModLoad(ModIds.reinfshulker) && QuickShulkerMod.getConfig().quickShulkerBox) {

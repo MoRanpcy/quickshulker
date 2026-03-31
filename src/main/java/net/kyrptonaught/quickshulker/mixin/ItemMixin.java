@@ -38,20 +38,16 @@ public abstract class ItemMixin {
     public void QS$onStackClicked(ItemStack hostStack, Slot slot, ClickType clickType, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         ItemStack insertStack = slot.getStack();
         if (BundleHelper.shouldAttemptBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingPickup)) {//bundle stack into held item
-            if (ShulkerUtils.isShulkerItem(hostStack) || !player.getWorld().isClient) {
-                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
-            } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
+            if(!ShulkerUtils.isShulkerItem(hostStack) && player.getEntityWorld().isClient() && slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
                 QuickBundlePacket.BundleIntoHeld.sendPacket(insertStack, hostStack, ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot));
-                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
                 //QuickBundlePacket.sendCreativeSlotUpdate(insertStack, slot); // It doesn't seem to be doing anything
             }
+            BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
         } else if (BundleHelper.shouldAttemptUnBundle(player, clickType, hostStack, insertStack, QuickShulkerMod.getConfig().supportsBundlingExtract)) {//unbundle held stack into slot
-            if (ShulkerUtils.isShulkerItem(hostStack) || !player.getWorld().isClient) {
-                BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
-            } else if (slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
+            if(!ShulkerUtils.isShulkerItem(hostStack) && player.getEntityWorld().isClient() && slot.inventory instanceof PlayerInventory && ClientUtil.isCreativeScreen(player)){ //stupid creative menu shiz
                 QuickBundlePacket.UnbundlePacket.sendPacket(ClientUtil.getPlayerInvSlot(player.currentScreenHandler, slot), hostStack);
-                BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
             }
+            BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
         }
     }
 }
