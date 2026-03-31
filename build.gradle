@@ -34,7 +34,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation ("com.terraformersmc:modmenu:16.0.0-rc.1") { exclude group: "net.fabricmc.fabric-api" }
+	modImplementation ("com.terraformersmc:modmenu:16.0.0") { exclude group: "net.fabricmc.fabric-api" }
 	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:7225066") { exclude group: "net.fabricmc.fabric-api" }
 	modImplementation "atonkish.reinfcore:reinforced-core:4.0.8+1.21.10"
 
@@ -76,10 +76,10 @@ publishing {
 	}
 	repositories {
 		maven {
-			url ='s3://maven.kyrptonaught.dev'
-			credentials(AwsCredentials) {
-				accessKey = System.getenv('maven-key-id')
-				secretKey = System.getenv('maven-key')
+			url ='https://maven.moranpcy.com/releases'
+			credentials(PasswordCredentials) {
+				username = System.getenv('MAVEN_USERNAME')
+				password = System.getenv('MAVEN_SECRET')
 			}
 		}
 	}
