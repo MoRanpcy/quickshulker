@@ -23,7 +23,7 @@ Click on the link below to download.
 * [3.0.0-1.21.11](https://github.com/MoRanpcy/quickshulker/releases/download/3.0.0-1.21.11/quickshulker-3.0.0-1.21.11.jar)
 * [3.0.0-26.1](https://github.com/MoRanpcy/quickshulker/releases/download/3.0.0-26.1/quickshulker-3.0.0-26.1.jar)
 
-### Noeforge:
+### Neoforge:
 
 * [3.0.0-26.1](https://github.com/MoRanpcy/quickshulker/releases/download/3.0.0-26.1-neo/quickshulker-neo-3.0.0-26.1.jar)
 
