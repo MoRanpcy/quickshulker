@@ -1,0 +1,90 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+
+version = project.mod_version
+group = project.maven_group
+
+
+loom {
+	accessWidenerPath = file("src/main/resources/quickshulker.accesswidener")
+}
+
+repositories {
+	maven { url 'https://maven.fabricmc.net' }
+	maven { url 'https://cursemaven.com' }
+	maven { url "https://maven.shedaniel.me/" }
+	maven { url 'https://maven.fallenbreath.me/releases' }
+	maven { url 'https://jitpack.io' }
+	maven { url 'https://raw.githubusercontent.com/Aton-Kish/mcmod/maven' }
+	maven {
+		name = "Terraformers"
+		url = "https://maven.terraformersmc.com/"
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	implementation ("com.terraformersmc:modmenu:18.0.0-alpha.8") { exclude group: "net.fabricmc.fabric-api" }
+//	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:7225066") { exclude group: "net.fabricmc.fabric-api" }
+//	modImplementation "atonkish.reinfcore:reinforced-core:4.0.8+1.21.10"
+
+	implementation include("me.fallenbreath:conditional-mixin-fabric:0.6.4")
+	compileOnly group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2"
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand (
+				"version": inputs.properties.version
+		)
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+}
+
+java {
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	inputs.property "archivesName", project.base.archivesName
+
+	from("LICENSE") {
+		rename { "${it}_${inputs.properties.archivesName}" }
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			artifactId = base.archivesName.get()
+			from components.java
+		}
+	}
+	repositories {
+		maven {
+			url ='https://maven.moranpcy.com/releases'
+			credentials(PasswordCredentials) {
+				username = System.getenv("MAVEN_USERNAME")
+				password = System.getenv("MAVEN_SECRET")
+			}
+		}
+	}
+}

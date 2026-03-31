@@ -1,0 +1,4 @@
+accessWidener v2 official
+
+accessible class net/minecraft/client/gui/screens/inventory/CreativeModeInventoryScreen$SlotWrapper
+accessible class net/minecraft/client/Options$FieldAccess

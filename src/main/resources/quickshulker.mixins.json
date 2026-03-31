@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "package": "net.kyrptonaught.quickshulker.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "ContainerMixin",
+    "CraftingMenuMixin",
+    "AnvilMenuMixin",
+    "ItemMixin",
+    "SlotAccessor",
+    "ContainerOpenMixin",
+    "PlayerInventoryMixin"
+  ],
+  "client": [
+    "ScreenMixin",
+    "CreativeSlotMixin",
+    "HandledScreenInvoker",
+    "MouseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
