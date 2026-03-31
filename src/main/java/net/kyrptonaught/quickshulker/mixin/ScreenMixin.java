@@ -5,7 +5,9 @@ import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.client.QuickShulkerModClient;
+import net.kyrptonaught.quickshulker.util.MouseDraggedHandler;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerInventory;
@@ -73,6 +75,19 @@ public abstract class ScreenMixin {
                 }
             }
         }
+    }
+
+    @Inject(
+            method = "renderMain(Lnet/minecraft/client/gui/DrawContext;IIF)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawForeground(Lnet/minecraft/client/gui/DrawContext;II)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void QS$drawForeground(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci){
+        HandledScreen<?> screen  = (HandledScreen<?>) (Object) this;
+        MouseDraggedHandler.beforeDrawForeground(screen, context, mouseX, mouseY);
     }
 
     @Unique
