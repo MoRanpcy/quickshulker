@@ -34,7 +34,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation("com.terraformersmc:modmenu:14.0.0-rc.2") { exclude group: "net.fabricmc.fabric-api" }
+	modImplementation("com.terraformersmc:modmenu:14.0.1") { exclude group: "net.fabricmc.fabric-api" }
 
 //	modImplementation ("com.github.sakura-ryoko:litematica:1.21.5-0.22.2") {exclude group: 'com.github.sakura-ryoko', module: 'malilib'}
 //	modImplementation "com.github.sakura-ryoko:malilib:1.21.5-0.24.2"
@@ -80,10 +80,10 @@ publishing {
 	}
 	repositories {
 		maven {
-			url ='s3://maven.kyrptonaught.dev'
-			credentials(AwsCredentials) {
-				accessKey = System.getenv('maven-key-id')
-				secretKey = System.getenv('maven-key')
+			url ='https://maven.moranpcy.com/releases'
+			credentials(PasswordCredentials) {
+				username = System.getenv('MAVEN_USERNAME')
+				password = System.getenv('MAVEN_SECRET')
 			}
 		}
 	}

@@ -5,14 +5,17 @@
   "mixins": [
     "ContainerMixin",
     "CraftingScreenHandlerMixin",
+    "AnvilScreenHandlerMixin",
     "ItemMixin",
     "ContainerOpenMixin",
-    "HandledScreenInvoker",
-    "HandledScreenMixin"
+    "SlotAccessor",
+    "PlayerInventoryMixin"
   ],
   "client": [
     "ScreenMixin",
-    "CreativeSlotMixin"
+    "CreativeSlotMixin",
+    "HandledScreenInvoker",
+    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
