@@ -13,6 +13,7 @@ import net.kyrptonaught.kyrptconfig.keybinding.DisplayOnlyKeyBind;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.event.KeyBindingRegister;
 import net.kyrptonaught.quickshulker.event.ModKeyCallback;
+import net.kyrptonaught.quickshulker.gui.HandledScreens;
 import net.kyrptonaught.quickshulker.util.EnderChestSyncHandler;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulkerClient;
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
@@ -27,6 +28,7 @@ public class QuickShulkerModClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientTickEvents.START_WORLD_TICK.register(ModKeyCallback::onKeyPressed);
         KeyBindingRegister.register();
+        HandledScreens.registerHandledScreens();
 
         PayloadTypeRegistry.playC2S().register(OpenInventoryPacket.OPEN_INV_ID, OpenInventoryPacket.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(OpenInventoryPacket.OPEN_INV_ID, (payload, context) -> {

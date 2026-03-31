@@ -81,10 +81,10 @@ publishing {
 	}
 	repositories {
 		maven {
-			url ='s3://maven.kyrptonaught.dev'
-			credentials(AwsCredentials) {
-				accessKey = System.getenv('maven-key-id')
-				secretKey = System.getenv('maven-key')
+			url ='https://maven.moranpcy.com/releases'
+			credentials(PasswordCredentials) {
+				username = System.getenv('MAVEN_USERNAME')
+				password = System.getenv('MAVEN_SECRET')
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 package net.kyrptonaught.quickshulker.config;
 
-import net.kyrptonaught.jankson.Comment ;
+import net.kyrptonaught.jankson.Comment;
 import net.kyrptonaught.kyrptconfig.config.AbstractConfigFile;
 import net.kyrptonaught.kyrptconfig.keybinding.CustomKeyBinding;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
@@ -41,5 +41,8 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean quickStonecutter = true;
     @Comment("Enable opening EnderChest")
     public boolean quickEChest = true;
-
+    @Comment("Enable opening Bundle")
+    public boolean quickBundle = true;
+    @Comment("Enable opening Anvil")
+    public boolean quickAnvil = true;
 }
