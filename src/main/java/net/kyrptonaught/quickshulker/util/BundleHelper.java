@@ -52,9 +52,7 @@ public class BundleHelper {
     }
 
     public static void unbundleStackIntoSlot(PlayerEntity player, ItemStack hostStack, Slot unbundleSlot, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack output = unbundleItem(player, hostStack, unbundleSlot);
-        if (output != null) {
-            unbundleSlot.setStack(output);
+        if (unbundleItem(player, hostStack, unbundleSlot) != null) {
             cir.setReturnValue(true);
         }
     }
@@ -86,7 +84,7 @@ public class BundleHelper {
         for (int i = inv.size() - 1; i >= 0; i--) {
             output = inv.getStack(i);
             if (!output.isEmpty() && unbundleSlot.canInsert(output)) {
-                output = inv.removeStack(i);
+                inv.setStack(i, unbundleSlot.insertStack(output));
                 inv.onClose(player);
                 return output;
             }
@@ -94,7 +92,7 @@ public class BundleHelper {
         return null;
     }
 
-//    private static synchronized ItemStack bundleItem(PlayerEntity player, ItemStack hostStack, ItemStack insertStack) {
+//    private static ItemStack bundleItem(PlayerEntity player, ItemStack hostStack, ItemStack insertStack) {
 //        Inventory bundlingInv = Util.getQuickItemInventory(player, hostStack);
 //        QuickShulkerData qsdata = QuickOpenableRegistry.getQuickie(hostStack.getItem());
 //        if (bundlingInv != null && qsdata.canBundleInsertItem(player, bundlingInv, hostStack, insertStack)) {
