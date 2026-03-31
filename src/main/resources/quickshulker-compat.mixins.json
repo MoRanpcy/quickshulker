@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "net.kyrptonaught.quickshulker.mixin.compat",
+  "plugin": "net.kyrptonaught.quickshulker.mixin.plugin.ModsMixinConfigPlugin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

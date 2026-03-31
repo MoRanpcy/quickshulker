@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "net.kyrptonaught.shulkerutils.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "ShulkerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
