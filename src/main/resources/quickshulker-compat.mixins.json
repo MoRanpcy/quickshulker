@@ -3,7 +3,10 @@
   "package": "net.kyrptonaught.quickshulker.mixin.compat",
   "plugin": "net.kyrptonaught.quickshulker.mixin.plugin.ModsMixinConfigPlugin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "mixins": [
+    "reinfshulker.ReinforcingMaterialSettingsMixin",
+    "reinfshulker.RenifShulkerBoxBlockMixin"
+  ],
   "client": [],
   "injectors": {
     "defaultRequire": 1
