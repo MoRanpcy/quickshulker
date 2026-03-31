@@ -99,14 +99,9 @@ public record QuickBundlePacket(int slotId, ItemStack stackToBundle) implements 
             PayloadTypeRegistry.playC2S().register(UnbundlePacket.QUICK_UNBUNDLE_PACKET_ID, UnbundlePacket.CODEC);
             ServerPlayNetworking.registerGlobalReceiver(UnbundlePacket.QUICK_UNBUNDLE_PACKET_ID, (payload, context) -> {
                 if (context.player().isCreative()) {
-                    int playerInvSlotID = payload.slotId;
-                    ItemStack unBundleStack = payload.unbundleStack;
                     context.server().execute(() -> {
                         Slot unbundleSlot = context.player().currentScreenHandler.getSlot(payload.slotId);
-                        ItemStack output = BundleHelper.unbundleItem(context.player(), unBundleStack, unbundleSlot);
-                        if (output != null)
-//                            context.player().getInventory().setStack(playerInvSlotID, output);
-                            unbundleSlot.setStack(output);
+                        BundleHelper.unbundleItem(context.player(), payload.unbundleStack, unbundleSlot);
                     });
                 }
             });

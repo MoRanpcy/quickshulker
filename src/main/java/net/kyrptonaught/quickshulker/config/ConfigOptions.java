@@ -26,7 +26,7 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean supportsBundlingInsert = true;
     @Comment("Right Clicking an item with a shulker inserts it")
     public boolean supportsBundlingPickup = true;
-    @Comment("Right Clicking a shulker with a shulker transfer item")
+    @Comment("Right Clicking a shulker with a shulker transfer items")
     public boolean supportsBundlingTransfer = true;
     @Comment("Right Clicking an empty slot with a shulker extracts an item")
     public boolean supportsBundlingExtract = true;
@@ -41,5 +41,8 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean quickStonecutter = true;
     @Comment("Enable opening EnderChest")
     public boolean quickEChest = true;
-
+    @Comment("Enable opening Bundle")
+    public boolean quickBundle = true;
+    @Comment("Enable opening Anvil")
+    public boolean quickAnvil = true;
 }
