@@ -25,7 +25,7 @@ Click on the link below to download.
 
 ### Noeforge:
 
-* [3.0.0-26.1](https://github.com/MoRanpcy/quickshulker/releases/download/neo-3.0.0-26.1/quickshulker-neo-3.0.0-26.1.jar)
+* [3.0.0-26.1](https://github.com/MoRanpcy/quickshulker/releases/download/3.0.0-26.1-neo/quickshulker-neo-3.0.0-26.1.jar)
 
 ## Beta
 
