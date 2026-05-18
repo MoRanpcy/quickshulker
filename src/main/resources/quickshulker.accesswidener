@@ -2,3 +2,5 @@ accessWidener v2 named
 
 accessible class net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen$CreativeSlot
 accessible class net/minecraft/client/option/GameOptions$Visitor
+accessible method net/minecraft/component/type/BundleContentsComponent$Builder getMaxAllowed (Lnet/minecraft/item/ItemStack;)I
+accessible method net/minecraft/component/type/BundleContentsComponent getOccupancy (Lnet/minecraft/item/ItemStack;)Lorg/apache/commons/lang3/math/Fraction;
