@@ -25,6 +25,7 @@
   "key.quickshulker.config.quickBundle": "啟用打開束口袋",
   "key.quickshulker.config.quickAnvil": "啟用打開鐵砧",
   "key.kyrptconfig.config.restartRequired": "重啟後生效",
+  "key.kyrptconfig.config.runOnlyOnServer": "模組僅在伺服器運行時要禁用它",
   "key.quickshulker.config.savedValue": "保存的值：%s",
   "key.quickshulker.config.keybindinsConflict": "\n該按鍵也用於：%s",
   "key.kyrptconfig.config.exit": "退出",
