@@ -41,7 +41,7 @@ public class ConfigOptions implements AbstractConfigFile {
     public boolean quickStonecutter = true;
     @Comment("Enable opening EnderChest")
     public boolean quickEChest = true;
-    @Comment("Enable opening Bundle")
+    @Comment("Enable opening Bundle(Disable it when the mod run only on server side)")
     public boolean quickBundle = true;
     @Comment("Enable opening Anvil")
     public boolean quickAnvil = true;
