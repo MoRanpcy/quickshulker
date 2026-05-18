@@ -42,7 +42,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
         OpenShulkerPacket.registerReceivePacket();
         QuickBundlePacket.registerReceivePacket();
         EventListeners.registerEventListeners();
-        MenuTypes.registerMenuTypes();
+        if(getConfig().quickBundle) MenuTypes.registerMenuTypes();
 
         UseItemCallback.EVENT.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);

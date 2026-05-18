@@ -1,5 +1,6 @@
 package net.kyrptonaught.quickshulker.gui.screen;
 
+import com.mojang.serialization.DataResult;
 import net.kyrptonaught.quickshulker.gui.MenuTypes;
 import net.kyrptonaught.quickshulker.mixin.SlotAccessor;
 import net.minecraft.util.Mth;
@@ -9,6 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BundleContents;
+import org.apache.commons.lang3.math.Fraction;
 
 public class BundleItemMenu extends AbstractContainerMenu {
     private static final int CONTAINER_SIZE = 64;
@@ -71,7 +74,7 @@ public class BundleItemMenu extends AbstractContainerMenu {
             ItemStack itemStack2 = slot2.getItem();
             itemStack = itemStack2.copy();
             if(slot < this.container.getContainerSize()){
-                if(!this.moveItemStackTo(itemStack2, this.container.getContainerSize(), this.slots.size(), true)){
+                if(!this.moveItemStackTo(itemStack2, this.container.getContainerSize(), this.slots.size(), true, slot2)){
                     return ItemStack.EMPTY;
                 }
             }else{
@@ -90,6 +93,77 @@ public class BundleItemMenu extends AbstractContainerMenu {
             }
         }
         return itemStack;
+    }
+
+    // Copied from ScreenHandler.insertItem(), and modified a little bit.
+    protected boolean moveItemStackTo(ItemStack itemStack, int startSlot, int endSlot, boolean backwards, Slot originSlot) {
+        boolean anythingChanged = false;
+        int destSlot = startSlot;
+        if (backwards) {
+            destSlot = endSlot - 1;
+        }
+
+        if (itemStack.isStackable()) {
+            while (!itemStack.isEmpty() && (backwards ? destSlot >= startSlot : destSlot < endSlot)) {
+                Slot slot = this.slots.get(destSlot);
+                ItemStack target = slot.getItem();
+                if (!target.isEmpty() && ItemStack.isSameItemSameComponents(itemStack, target)) {
+                    int totalStack = target.getCount() + itemStack.getCount();
+                    int maxStackSize = slot.getMaxStackSize(target);
+                    if (totalStack <= maxStackSize) {
+                        itemStack = ItemStack.EMPTY;
+                        originSlot.setByPlayer(ItemStack.EMPTY);
+                        target.setCount(totalStack);
+                        slot.setChanged();
+                        anythingChanged = true;
+                    } else if (target.getCount() < maxStackSize) {
+                        itemStack.shrink(maxStackSize - target.getCount());
+                        target.setCount(maxStackSize);
+                        slot.setChanged();
+                        anythingChanged = true;
+                    }
+                }
+
+                if (backwards) {
+                    destSlot--;
+                } else {
+                    destSlot++;
+                }
+            }
+        }
+
+        if (!itemStack.isEmpty()) {
+            if (backwards) {
+                destSlot = endSlot - 1;
+            } else {
+                destSlot = startSlot;
+            }
+
+            while (backwards ? destSlot >= startSlot : destSlot < endSlot) {
+                Slot slotx = this.slots.get(destSlot);
+                ItemStack targetx = slotx.getItem();
+                if (targetx.isEmpty() && slotx.mayPlace(itemStack)) {
+                    int maxStackSize = slotx.getMaxStackSize(itemStack);
+                    if(itemStack.getCount() <= maxStackSize){
+                        slotx.setByPlayer(itemStack);
+                        originSlot.setByPlayer(ItemStack.EMPTY);
+                    }else {
+                        slotx.setByPlayer(itemStack.split(maxStackSize));
+                    }
+                    slotx.setChanged();
+                    anythingChanged = true;
+                    break;
+                }
+
+                if (backwards) {
+                    destSlot--;
+                } else {
+                    destSlot++;
+                }
+            }
+        }
+
+        return anythingChanged;
     }
 
     @Override
@@ -130,7 +204,28 @@ public class BundleItemMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return BundleItemMenu.this.countCanInsertToBundle(stack) != 0;
+            if(!BundleContents.canItemBeInBundle(stack)){
+                return false;
+            }else{
+                BundleContents contents = ((BundleContainer) BundleItemMenu.this.container).getBundleContents();
+                if(contents == null) return false;
+                BundleContents.Mutable builder = new BundleContents.Mutable(contents);
+                ItemStack stackInSlot = this.getItem();
+                if(stackInSlot.isEmpty() || ItemStack.isSameItemSameComponents(stackInSlot, stack)){
+                    DataResult<Fraction> maybeItemWeight = BundleContents.getWeight(stack);
+                    if(maybeItemWeight.isError()) return false;
+                    Fraction itemWeight = (Fraction)maybeItemWeight.getOrThrow();
+                    return builder.getMaxAmountToAdd(itemWeight) > 0;
+                }else{
+                    Fraction stack1 = calculateFraction(stackInSlot);
+                    Fraction stack2 = calculateFraction(stack);
+                    return Fraction.ONE.subtract(builder.weight()).add(stack1).compareTo(stack2) >= 0;
+                }
+            }
+        }
+        
+        private static Fraction calculateFraction(ItemStack stack){
+            return BundleContents.getWeight(stack).getOrThrow().multiplyBy(Fraction.getFraction(stack.getCount(), 1));
         }
 
         @Override
