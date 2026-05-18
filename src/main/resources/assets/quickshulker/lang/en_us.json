@@ -25,6 +25,7 @@
   "key.quickshulker.config.quickBundle": "Enable opening Bundle",
   "key.quickshulker.config.quickAnvil": "Enable opening Anvil",
   "key.kyrptconfig.config.restartRequired": "Restart is Required",
+  "key.kyrptconfig.config.runOnlyOnServer": "Disable it when the mod run only on server side",
   "key.quickshulker.config.savedValue": "Saved Value: %s",
   "key.quickshulker.config.keybindinsConflict": "\nThis key is also used for: %s",
   "key.kyrptconfig.config.exit": "Exit",
