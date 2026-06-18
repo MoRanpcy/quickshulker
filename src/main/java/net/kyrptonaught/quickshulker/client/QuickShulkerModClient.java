@@ -30,7 +30,7 @@ public class QuickShulkerModClient implements ClientModInitializer {
 
         PayloadTypeRegistry.serverboundPlay().register(OpenInventoryPacket.OPEN_INV_ID, OpenInventoryPacket.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(OpenInventoryPacket.OPEN_INV_ID, (payload, context) -> {
-            context.client().setScreen(new InventoryScreen(context.player()));
+            context.client().gui.setScreen(new InventoryScreen(context.player()));
         });
 
         PayloadTypeRegistry.serverboundPlay().register(EnderChestS2CSyncPacket.S2CEChestContentPacket.S2C_ECHEST_CONTENT_PACKET_ID, EnderChestS2CSyncPacket.S2CEChestContentPacket.CODEC);

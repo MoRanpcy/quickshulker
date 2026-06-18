@@ -33,12 +33,12 @@ public class ConfigScreen extends Screen {
     protected void init() {
         int center = this.width / 2;
         this.addRenderableWidget(new NotSuckyButton(center - 153, height - 25, 150, 20, Component.translatable("key.kyrptconfig.config.exit"), widget -> {
-            this.minecraft.setScreen(previousScreen);
+            this.minecraft.gui.setScreen(previousScreen);
         }));
 
         this.addRenderableWidget(new NotSuckyButton(center + 3, height - 25, 150, 20, Component.translatable("key.kyrptconfig.config.saveExit"), widget -> {
             save();
-            this.minecraft.setScreen(previousScreen);
+            this.minecraft.gui.setScreen(previousScreen);
         }));
         for (ConfigSection section : sections) {
             section.init(width, height - 57 - 30);

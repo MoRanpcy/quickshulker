@@ -1,18 +1,18 @@
 # Quick Shulker
 
-**English** | [中文](README_CN.md)
+[English](README.md) | **中文**
 
-Quickly open a held shulker box with the press of a key!
+用按键快速打开手持的潜影盒！
 
-This project updates [kyrptonaught](https://github.com/kyrptonaught)'s [QuickShulker](https://github.com/kyrptonaught/quickshulker.git) mod to higher Minecraft versions，and fixes something.
+这个项目将 [kyrptonaught](https://github.com/kyrptonaught) 的 [QuickShulker](https://github.com/kyrptonaught/quickshulker.git) 模组更新到更高的我的世界版本并且修复了一些东西。
 
 ---
 
 ## Latest Release
 
-### Fabric:
+### Fabric：
 
-Click the links below to download.
+点击下面的链接下载。
 
 <details>
 <summary>1.21.x</summary>
@@ -39,9 +39,9 @@ Click the links below to download.
 
 </details>
 
-> If you need 1.20.2 ~ 1.20.6, click [here](https://moranpcy.lanzouq.com/b004io7t1a) (password: `1ipd`). They are no longer maintained and have several issues.
+> 如果你需要 1.20.2~1.20.6，点击[这里](https://moranpcy.lanzouq.com/b004io7t1a)，密码是`1ipd`，它们已经停止维护了，所以存在许多问题。
 
-### NeoForge:
+### Neoforge:
 
 <details>
 <summary>26.x</summary>
@@ -64,43 +64,43 @@ Click the links below to download.
 
 ---
 
-## Features
+## 功能
 
-### Quick Open Item
+### 快速打开容器
 
-Use a hotkey (default: <kbd>k</kbd>) or right-click to quickly open the screen of an item held in your hand or stored in your inventory.
+你可以使用快捷键（默认是<kbd>k</kbd>）或者鼠标右键快速打开玩家手里或者物品栏内物品的界面。
 
-| Supported Items  |
-| :--------------: |
-| Crafting Table   |
-| Stonecutter      |
-| Shulker Box      |
-| Ender Chest      |
-| Anvil            |
-| Bundle           |
+| 支持的物品 |
+|  :-----:  |
+|工作台|
+|切石机|
+|潜影盒|
+|末影箱|
+|铁砧  |
+|收纳袋|
 
-> On Fabric, you can disable the bundle on the server side to allow clients without mod to join.
+> 对于 Fabric 你可以通过在服务端禁用收纳袋来允许未装模组的客户端玩家进入。
 
-### Quick Container Actions
+### 容器的快捷操作
 
-* Drag a container item and right‑click another item to store that item into the container; you can also right‑click the container with an item.
-* Drag a container item and right‑click an empty slot in your inventory to extract items from the container.
-* Drag a container item and hold the right mouse button to batch‑store or batch‑extract items.
+* 你可以用鼠标拖动容器右键物品来存入容器，也可以用物品右键容器。
+* 你可以用鼠标拖动容器右键物品栏内的空槽位来取出容器内的物品。
+* 你可以用鼠标拖动并长按鼠标右键来批量存入或者取出容器内的物品。
 
-### Config Menu
+### 配置菜单
 
-A config menu is provided so you can easily enable or disable certain features. You can open it via [Mod Menu](https://modrinth.com/mod/modmenu), but it is not required – you can also use a configurable hotkey (default: numpad<kbd>+</kbd>).
+模组提供了一个配置菜单以便你更方便地启用或者禁用某些功能，你可以使用[Mod Menu](https://modrinth.com/mod/modmenu)来打开它，但不是必须的，你可以用一个可配置的按键来打开它，默认是小键盘的<kbd>+</kbd>。
 
 ### API
 
-The original author provides an API that allows items from your own mod to also support [Quick Open Item](#quick-open-item) and [Quick Container Actions](#quick-container-actions).
+原作者提供了一个API可以让你的模组里的物品也可以做到[快速打开容器](#快速打开容器)和[容器的快捷操作](#容器的快捷操作)。
 
-You need to implement `RegisterQuickShulker` and register your mod in `registerProviders()`. Here is an example for version `26.2`:
+你需要实现 `RegisterQuickShulker` ，然后在 `registerProviders()` 中注册你的模组，以`26.2`为例：
 
-* Register [Quick Open Item](#quick-open-container) for your mod.
+* 为你的模组注册[快速打开容器](#快速打开容器)。
 
     <details>
-    <summary>Click to expand</summary>
+    <summary>点击展开</summary>
 
     ```java
     import net.kyrptonaught.quickshulker.api.RegisterQuickShulker;
@@ -108,12 +108,12 @@ You need to implement `RegisterQuickShulker` and register your mod in `registerP
     public class YourClass implements RegisterQuickShulker {
         @Override
         public void registerProviders() {
-            if (...) // You can add conditions to enable/disable here
+            if (...) // 你可以在这里设置启用或者禁用的条件
                 new QuickOpenableRegistry.Builder()
-                    .setItem(YourBlockOrItem.class) // Required
-                    .ignoreSingleStackCheck(true)  // Optional. Set whether the item can be opened even when stacked (like Crafting Table or Anvil). Default is false.
+                    .setItem(YourBlockOrItem.class) // 必需的
+                    .ignoreSingleStackCheck(true)  // 可选的。设置物品是否能在堆叠时打开，就像工作台和铁砧，默认是false
                     .setOpenAction((player, stack) -> player.openMenu(new SimpleMenuProvider((i, playerInventory, player) -> 
-                            new YourItemMenu(...), YourMenuTitle))) // Required
+                            new YourItemMenu(...), YourMenuTitle))) // 必需的
                     .register();
         }
     }
@@ -121,24 +121,25 @@ You need to implement `RegisterQuickShulker` and register your mod in `registerP
 
     </details>
 
-* Register [Quick Container Actions](#quick-container-actions) for your mod.
-
+* 为你的模组注册[容器的快捷操作](#容器的快捷操作)。
+   
     <details>
-    <summary>Click to expand</summary>
+    <summary>点击展开</summary>
 
-    ```java
+    ``` java
     import net.kyrptonaught.quickshulker.api.RegisterQuickShulker;
 
     public class YourClass implements RegisterQuickShulker {
         @Override
         public void registerProviders() {
             new QuickOpenableRegistry.Builder()
-                .setItem(YourBlockOrItem.class) // Required
-                .supportsBundleing(true) // Required. Default is false.
-                .getBundleInv((player, stack) -> new YourItemContainer()) // Required
+                .setItem(YourBlockOrItem.class) // 必需的
+                .supportsBundleing(true) // 必需的。默认是false
+                .getBundleInv((player, stack) -> new YourItemContainer()) // 必需的
                 .register();
         }
     }
-    ```
+
+   ```
 
     </details>
