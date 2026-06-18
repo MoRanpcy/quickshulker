@@ -14,11 +14,11 @@ public class ModKeyCallback {
         Minecraft mc = Minecraft.getInstance();
         ConfigOptions configs = QuickShulker.getConfig();
         if(configs.openSettingGui.wasPressed()){
-            mc.setScreen(ModConfigMenu.getModConfigMenu(mc.screen));
+            mc.gui.setScreen(ModConfigMenu.getModConfigMenu(mc.gui.screen()));
         }
         if (configs.keybinding.isKeybindPressed()) {
             Player player = mc.player;
-            if (mc.screen == null && QuickShulker.getConfig().keybind && player != null && !player.isSpectator()) {
+            if (mc.gui.screen() == null && QuickShulker.getConfig().keybind && player != null && !player.isSpectator()) {
                 if (player.getMainHandItem().isEmpty() && !player.getOffhandItem().isEmpty())
                     ClientUtil.CheckAndSend(player.getOffhandItem(), 45);
                 else

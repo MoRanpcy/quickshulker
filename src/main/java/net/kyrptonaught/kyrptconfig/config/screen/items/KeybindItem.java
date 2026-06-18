@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.lwjgl.glfw.GLFW;
@@ -38,7 +38,7 @@ public class KeybindItem extends ConfigItem<String> {
     }
 
     public MutableComponent getCleanName(String str) {
-        if (I18n.exists(value))
+        if (Language.getInstance().has(value))
             return Component.translatable(str);
         if (str == null || str.isBlank() || str.isEmpty())
             return Component.translatable("key.keyboard.unknown");

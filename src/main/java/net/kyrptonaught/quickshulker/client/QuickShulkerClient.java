@@ -48,7 +48,7 @@ public class QuickShulkerClient {
     public static void registerReceivePacket(RegisterClientPayloadHandlersEvent event){
         event.register(
                 OpenInventoryPacket.OPEN_INV_ID,
-                (payload, context) -> Minecraft.getInstance().setScreen(new InventoryScreen(context.player()))
+                (payload, context) -> Minecraft.getInstance().gui.setScreen(new InventoryScreen(context.player()))
         );
         event.register(
                 EnderChestS2CSyncPacket.S2CEChestContentPacket.S2C_ECHEST_CONTENT_PACKET_ID,
