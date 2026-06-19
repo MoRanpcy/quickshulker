@@ -56,7 +56,7 @@
 ### Fabric:
 
 <details>
-<summary>26.x</summary>
+<summary>1.21.6-1.21.8</summary>
 
 * [1.21.6-1.21.8-beta.1](https://github.com/MoRanpcy/quickshulker/releases/download/1.21.6-1.21.8-beta.1/quickshulker-1.21.6-1.21.8-beta.1.jar)
 
@@ -66,7 +66,7 @@
 
 ## 功能
 
-### 快速打开容器
+### 快速打开物品
 
 你可以使用快捷键（默认是<kbd>k</kbd>）或者鼠标右键快速打开玩家手里或者物品栏内物品的界面。
 
@@ -93,11 +93,11 @@
 
 ### API
 
-原作者提供了一个API可以让你的模组里的物品也可以做到[快速打开容器](#快速打开容器)和[容器的快捷操作](#容器的快捷操作)。
+原作者提供了一个API可以让你的模组里的物品也可以做到[快速打开物品](#快速打开物品)和[容器的快捷操作](#容器的快捷操作)。
 
 你需要实现 `RegisterQuickShulker` ，然后在 `registerProviders()` 中注册你的模组，以`26.2`为例：
 
-* 为你的模组注册[快速打开容器](#快速打开容器)。
+* 为你的模组注册[快速打开物品](#快速打开物品)。
 
     <details>
     <summary>点击展开</summary>

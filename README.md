@@ -56,7 +56,7 @@ Click the links below to download.
 ### Fabric:
 
 <details>
-<summary>26.x</summary>
+<summary>1.21.6-1.21.8</summary>
 
 * [1.21.6-1.21.8-beta.1](https://github.com/MoRanpcy/quickshulker/releases/download/1.21.6-1.21.8-beta.1/quickshulker-1.21.6-1.21.8-beta.1.jar)
 
@@ -97,7 +97,7 @@ The original author provides an API that allows items from your own mod to also 
 
 You need to implement `RegisterQuickShulker` and register your mod in `registerProviders()`. Here is an example for version `26.2`:
 
-* Register [Quick Open Item](#quick-open-container) for your mod.
+* Register [Quick Open Item](#quick-open-item) for your mod.
 
     <details>
     <summary>Click to expand</summary>
