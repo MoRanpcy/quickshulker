@@ -15,7 +15,6 @@
     "ScreenMixin",
     "CreativeSlotMixin",
     "HandledScreenInvoker",
-    "MouseMixin",
     "ScreenAccessor"
   ],
   "injectors": {

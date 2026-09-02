@@ -1,6 +1,8 @@
 package net.kyrptonaught.quickshulker.event;
 
 import net.kyrptonaught.quickshulker.QuickShulker;
+import net.kyrptonaught.quickshulker.api.ItemInventoryContainer;
+import net.kyrptonaught.quickshulker.api.Util;
 import net.kyrptonaught.quickshulker.util.EnderChestSyncHandler;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.ChestMenu;
@@ -30,8 +32,10 @@ public class EventListeners {
     }
 
     // Open container
-    public static void containerOpenedListener(ServerPlayer player, ChestMenu chestMenu) {
-        EnderChestSyncHandler.syncOnContainerOpened(player, chestMenu);
+    public static void containerOpenedListener(ServerPlayer player) {
+        if(player.containerMenu instanceof ChestMenu chestMenu && chestMenu.getContainer() == player.getEnderChestInventory()) {
+            EnderChestSyncHandler.syncOnContainerOpened(player, chestMenu);
+        }
     }
 
 //    // Open container (It is also effective, but I want the code to be the same as Fabric's)
@@ -42,4 +46,10 @@ public class EventListeners {
 //        }
 //    }
 
+    public static void containerClosedListener(ServerPlayer player){
+        if(QuickShulker.getConfig().playSound) {
+            int selectedSlot = ((ItemInventoryContainer) player.containerMenu).getUsedSlotInPlayerInv();
+            if (selectedSlot != -1) Util.playCloseSound(player, selectedSlot);
+        }
+    }
 }

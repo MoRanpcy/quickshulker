@@ -9,6 +9,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -68,8 +70,10 @@ public record QuickBundlePacket(int slotId, ItemStack stackToBundle) implements 
                     (payload, context) -> {
                         if (context.player().isCreative()) {
                             context.enqueueWork(() -> {
-                                Slot slot = context.player().containerMenu.getSlot(payload.slotId);
-                                BundleHelper.bundleItemIntoStack(context.player(), payload.stackList.get(1), payload.stackList.get(0), slot, null);
+                                ServerPlayer player = (ServerPlayer) context.player();
+                                AbstractContainerMenu menu = player.containerMenu;
+                                Slot slot = menu.getSlot(menu.findSlot(player.getInventory(), payload.slotId).getAsInt());
+                                BundleHelper.bundleItemIntoStack(player, payload.stackList.get(1), payload.stackList.get(0), slot, null);
                             });
                         }
                     }
@@ -102,8 +106,10 @@ public record QuickBundlePacket(int slotId, ItemStack stackToBundle) implements 
                     (payload, context) -> {
                         if (context.player().isCreative()) {
                             context.enqueueWork(() -> {
-                                Slot unbundleSlot = context.player().containerMenu.getSlot(payload.slotId);
-                                BundleHelper.unbundleItem(context.player(), payload.unbundleStack, unbundleSlot);
+                                ServerPlayer player = (ServerPlayer) context.player();
+                                AbstractContainerMenu menu = player.containerMenu;
+                                Slot unbundleSlot = menu.getSlot(menu.findSlot(player.getInventory(), payload.slotId).getAsInt());
+                                BundleHelper.unbundleItem(player, payload.unbundleStack, unbundleSlot);
                             });
                         }
                     }
