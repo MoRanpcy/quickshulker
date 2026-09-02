@@ -5,6 +5,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +76,11 @@ public class QuickOpenableRegistry {
 
         public Builder setOpenAction(BiConsumer<PlayerEntity, ItemStack> openAction) {
             qsdata.openConsumer = openAction;
+            return this;
+        }
+
+        public Builder getSound(BiFunction<ItemStack, Boolean, SoundEvent> getSound){
+            qsdata.soundGetter = getSound;
             return this;
         }
 
