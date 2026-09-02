@@ -18,6 +18,7 @@ import net.kyrptonaught.quickshulker.util.EnderChestSyncHandler;
 import net.kyrptonaught.quickshulker.api.RegisterQuickShulkerClient;
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
+import net.kyrptonaught.quickshulker.util.update.UpdateChecker;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.inventory.EnderChestInventory;
 
@@ -29,6 +30,7 @@ public class QuickShulkerModClient implements ClientModInitializer {
         ClientTickEvents.START_WORLD_TICK.register(ModKeyCallback::onKeyPressed);
         KeyBindingRegister.register();
         HandledScreens.registerHandledScreens();
+        UpdateChecker.register();
 
         PayloadTypeRegistry.playC2S().register(OpenInventoryPacket.OPEN_INV_ID, OpenInventoryPacket.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(OpenInventoryPacket.OPEN_INV_ID, (payload, context) -> {
@@ -46,7 +48,8 @@ public class QuickShulkerModClient implements ClientModInitializer {
         ClientPlayNetworking.registerGlobalReceiver(EnderChestS2CSyncPacket.S2CEChestSlotPacket.S2C_ECHEST_SLOT_PACKET_ID, (payload, context) -> {
             context.client().execute(() -> {
                 EnderChestInventory enderChestInventory = context.player().getEnderChestInventory();
-                enderChestInventory.setStack(payload.slotId(), payload.itemStack());
+                // safeguard against mods only changing ender chest size on one side
+                if(payload.slotId() < enderChestInventory.size()) enderChestInventory.setStack(payload.slotId(), payload.itemStack());
             });
         });
 
