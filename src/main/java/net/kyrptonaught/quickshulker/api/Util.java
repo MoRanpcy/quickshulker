@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 
 public class Util {
 
@@ -30,6 +32,7 @@ public class Util {
         QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
         if (qsData != null) {
             qsData.openConsumer.accept(player, stack);
+            if(QuickShulkerMod.getConfig().playSound) playSound(player, qsData.getSound(stack, true));
             ((ItemInventoryContainer) player.currentScreenHandler).setUsedSlot(playerInvIndex);
             player.currentScreenHandler.addListener(forceCloseScreenIfNotPresent(player, playerInvIndex, stack.copy()));
         }
@@ -56,6 +59,29 @@ public class Util {
             return qsData.canOpenInHand;
         }
         return false;
+    }
+
+    public static void playOpenSound(PlayerEntity player, int selectedInvIndex){
+        ItemStack stack = player.getInventory().getStack(selectedInvIndex);
+        QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
+        if (qsData != null) {
+            playSound(player, qsData.getSound(stack, true));
+        }
+    }
+
+    public static void playCloseSound(PlayerEntity player, int selectedInvIndex){
+        ItemStack stack = player.getInventory().getStack(selectedInvIndex);
+        QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
+        if (qsData != null) {
+            playSound(player, qsData.getSound(stack, false));
+        }
+    }
+
+    public static void playSound(PlayerEntity player, SoundEvent sound){
+        if(sound != null){
+//            player.getEntityWorld().playSound(null, player.getBlockPos(), sound, player.getSoundCategory());
+            player.getEntityWorld().playSound(null, player.getX(), player.getY(), player.getZ(), sound, SoundCategory.BLOCKS);
+        }
     }
 
     public static boolean areItemsEqualExactly(ItemStack stack, ItemStack otherStack) {
