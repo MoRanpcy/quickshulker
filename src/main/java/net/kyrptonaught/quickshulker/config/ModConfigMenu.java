@@ -14,12 +14,12 @@ public class ModConfigMenu {
         ConfigOptions options = QuickShulker.getConfig();
 
         ConfigScreen configScreen = new ConfigScreen(screen, Component.translatable("key.quickshulker.config.category.title"));
-        configScreen.setSavingEvent(() -> {
-            QuickShulker.config.save();
-        });
+        configScreen.setSavingEvent(() -> QuickShulker.config.save());
+
         ConfigSection activationSection = new ConfigSection(configScreen, Component.translatable("key.quickshulker.config.category.activation"));
         activationSection.addConfigItem(new KeybindItem(Component.translatable("key.quickshulker.config.keybinding"), options.keybinding.rawKey, ConfigOptions.defualtKeybind).setSaveConsumer(value -> options.keybinding.setRaw(value)));
         activationSection.addConfigItem(new KeybindItem(Component.translatable("key.quickshulker.config.openSettingGui"), options.openSettingGui.rawKey, options.openSettingGui.defaultKey).setSaveConsumer(value -> options.openSettingGui.setRaw(value)));
+        activationSection.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.checkUpdate"), options.checkUpdate, true).setSaveConsumer(value -> options.checkUpdate = value));
         activationSection.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.keybind"), options.keybind, true).setSaveConsumer(value -> options.keybind = value));
         activationSection.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.rightClick"), options.rightClickToOpen, true).setSaveConsumer(value -> options.rightClickToOpen = value));
         activationSection.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.keybindInInv"), options.keybingInInv, true).setSaveConsumer(value -> options.keybingInInv = value));
@@ -27,6 +27,7 @@ public class ModConfigMenu {
 
         ConfigSection optionsSection = new ConfigSection(configScreen, Component.translatable("key.quickshulker.config.category.options"));
         optionsSection.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.rightClickClose"), options.rightClickClose, false).setSaveConsumer(value -> options.rightClickClose = value));
+        optionsSection.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.playSound"), options.playSound, true).setSaveConsumer(value -> options.playSound = value));
 
         SubItem subItem = (SubItem) optionsSection.addConfigItem(new SubItem(Component.translatable("key.quickshulker.config.category.bundleing"), true));
         subItem.addConfigItem(new BooleanItem(Component.translatable("key.quickshulker.config.supportsBundlingInsert"), options.supportsBundlingInsert, true).setSaveConsumer(value -> options.supportsBundlingInsert = value));

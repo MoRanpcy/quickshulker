@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.BundleContents;
 import org.apache.commons.lang3.math.Fraction;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BundleContainer extends SimpleContainer {
@@ -23,13 +24,13 @@ public class BundleContainer extends SimpleContainer {
     }
 
     public BundleContainer(ItemStack itemStack, int size) {
-        super(getItems(itemStack, size).toArray(new ItemStack[size]));
+        super(getItemsArray(itemStack, size));
         this.itemStack = itemStack;
         this.size = size;
     }
 
-    public static NonNullList<ItemStack> getItems(ItemStack usedStack, int SIZE) {
-        NonNullList<ItemStack> itemStacks = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+    public static NonNullList<ItemStack> getItemsList(ItemStack usedStack, int size) {
+        NonNullList<ItemStack> itemStacks = NonNullList.withSize(size, ItemStack.EMPTY);
             BundleContents bundleContents = usedStack.get(DataComponents.BUNDLE_CONTENTS);
             List<ItemStack> stacks = bundleContents.itemCopyStream().toList();
             for(int i = 0; i < stacks.size(); i++){
@@ -38,12 +39,27 @@ public class BundleContainer extends SimpleContainer {
         return itemStacks;
     }
 
+    public static ItemStack[] getItemsArray(ItemStack usedStack, int size){
+        ItemStack[] itemStacks = new ItemStack[size];
+        Arrays.fill(itemStacks, ItemStack.EMPTY);
+        BundleContents bundleContents = usedStack.get(DataComponents.BUNDLE_CONTENTS);
+        ItemStack[] itemStacks1 = bundleContents.itemCopyStream().toArray(ItemStack[]::new);
+        System.arraycopy(itemStacks1, 0, itemStacks, 0, itemStacks1.length);
+        return itemStacks;
+    }
+
+    // Only Server
     public BundleContents getBundleContents(){
         return this.itemStack.get(DataComponents.BUNDLE_CONTENTS);
     }
 
+    // Server and Client
+    public BundleContents getBundleContentsByItems(){
+        return new BundleContents(getItems().stream().filter(itemStack -> !itemStack.isEmpty()).map(ItemStackTemplate::fromStack).toList());
+    }
+
     public int countCanInsertToBundle(ItemStack insertStack){
-        BundleContents contents = this.getBundleContents();
+        BundleContents contents = this.getBundleContentsByItems();
         if(contents != null){
             BundleContents.Mutable builder =new BundleContents.Mutable(contents);
             return builder.tryInsert(insertStack.copy());
@@ -51,8 +67,8 @@ public class BundleContainer extends SimpleContainer {
         return 0;
     }
 
-    public static boolean isFull(ItemStack itemStack){
-        BundleContents content = itemStack.get(DataComponents.BUNDLE_CONTENTS);
+    public static boolean isFull(ItemStack bundleItem){
+        BundleContents content = bundleItem.get(DataComponents.BUNDLE_CONTENTS);
         return content == null || content.weight().getOrThrow().compareTo(Fraction.ONE) >= 0;
     }
 
@@ -60,7 +76,7 @@ public class BundleContainer extends SimpleContainer {
     public void setChanged() {
         super.setChanged();
         ImmutableList.Builder<ItemStackTemplate> builder = ImmutableList.builder();
-        this.getItems().stream().filter(stack -> !stack.isEmpty()).forEach(stack -> builder.add(ItemStackTemplate.fromNonEmptyStack(stack)));
+        this.getItems().stream().filter(stack -> !stack.isEmpty()).map(ItemStack::copy).forEach(stack -> builder.add(ItemStackTemplate.fromNonEmptyStack(stack)));
         BundleContents bundleContents = new BundleContents(builder.build());
         itemStack.set(DataComponents.BUNDLE_CONTENTS, bundleContents);
     }

@@ -8,6 +8,7 @@ import net.kyrptonaught.quickshulker.event.ModKeyCallback;
 import net.kyrptonaught.quickshulker.network.EnderChestS2CSyncPacket;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.kyrptonaught.quickshulker.util.EnderChestSyncHandler;
+import net.kyrptonaught.quickshulker.util.update.UpdateChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -18,6 +19,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -35,6 +37,7 @@ public class QuickShulkerClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         ServiceLoader.load(RegisterQuickShulkerClient.class).stream().map(ServiceLoader.Provider::get).forEach(RegisterQuickShulkerClient::registerClient);
+        UpdateChecker.onInit();
     }
 
     @SubscribeEvent
@@ -42,6 +45,11 @@ public class QuickShulkerClient {
         if(event.getLevel() instanceof  ClientLevel clientLevel){
             ModKeyCallback.onKeyPressed(clientLevel);
         }
+    }
+
+    @SubscribeEvent
+    public static void onLocalPlayerLoggedIn(ClientPlayerNetworkEvent.LoggingIn event){
+        UpdateChecker.onLocalPlayerLoggedIn();
     }
 
     @SubscribeEvent
@@ -58,7 +66,8 @@ public class QuickShulkerClient {
                 EnderChestS2CSyncPacket.S2CEChestSlotPacket.S2C_ECHEST_SLOT_PACKET_ID,
                 (payload, context) -> context.enqueueWork(() -> {
                     PlayerEnderChestContainer enderChestInventory = context.player().getEnderChestInventory();
-                    enderChestInventory.setItem(payload.slotId(), payload.itemStack());
+                    // safeguard against mods only changing ender chest size on one side
+                    if(payload.slotId() < enderChestInventory.getContainerSize()) enderChestInventory.setItem(payload.slotId(), payload.itemStack());
                 })
         );
     }

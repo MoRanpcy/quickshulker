@@ -1,7 +1,6 @@
 package net.kyrptonaught.quickshulker.mixin;
 
 import net.kyrptonaught.quickshulker.QuickShulker;
-import net.kyrptonaught.quickshulker.gui.screen.BundleContainer;
 import net.kyrptonaught.quickshulker.util.BundleHelper;
 import net.kyrptonaught.quickshulker.client.ClientUtil;
 import net.kyrptonaught.quickshulker.network.QuickBundlePacket;
@@ -43,20 +42,12 @@ public abstract class ItemMixin {
                 QuickBundlePacket.BundleIntoHeld.sendPacket(insertStack, hostStack, ClientUtil.getPlayerInvSlot(player.containerMenu, slot));
                 //QuickBundlePacket.sendCreativeSlotUpdate(insertStack, slot); // It doesn't seem to be doing anything
             }
-            if(slot.container instanceof BundleContainer){
-                cir.setReturnValue(false);
-            }else {
-                BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
-            }
+            BundleHelper.bundleItemIntoStack(player, hostStack, insertStack, slot, cir);
         } else if (BundleHelper.shouldAttemptUnBundle(player, clickType, hostStack, insertStack, QuickShulker.getConfig().supportsBundlingExtract)) {//unbundle held stack into slot
             if (!ShulkerUtils.isShulkerItem(hostStack) && player.level().isClientSide() && slot.container instanceof Inventory && ClientUtil.isCreativeScreen(player)) { //stupid creative menu shiz
                 QuickBundlePacket.UnbundlePacket.sendPacket(ClientUtil.getPlayerInvSlot(player.containerMenu, slot), hostStack);
             }
-            if(slot.container instanceof BundleContainer){
-                cir.setReturnValue(false);
-            }else {
-                BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
-            }
+            BundleHelper.unbundleStackIntoSlot(player, hostStack, slot, cir);
         }
     }
 }

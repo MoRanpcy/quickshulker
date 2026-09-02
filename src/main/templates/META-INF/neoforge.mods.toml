@@ -3,35 +3,29 @@ license="${mod_license}"
 issueTrackerURL="https://github.com/MoRanpcy/quickshulker/issues"
 
 [[mods]]
-
-modId="${mod_id}"
-
-version="${mod_version}"
-
-displayName="${mod_name}"
-
-displayURL="https://github.com/MoRanpcy/quickshulker"
-
-logoFile= "assets/quickshulker/icon.png"
-
-authors="${mod_authors}"
-
-description='''${mod_description}'''
+    modId="${mod_id}"
+    version="${version}"
+    displayName="${mod_name}"
+    displayURL="https://github.com/MoRanpcy/quickshulker"
+    bannerFile="assets/quickshulker/icon.png"
+    iconFile="assets/quickshulker/icon.png"
+    authors="${mod_authors}"
+    description='''${mod_description}'''
 
 [[mixins]]
-config="${mod_id}.mixins.json"
+    config="${mod_id}.mixins.json"
 
 [[mixins]]
-config="kyrptconfig.mixins.json"
+    config="kyrptconfig.mixins.json"
 
 [[mixins]]
-config="shulkerutils.mixins.json"
+    config="shulkerutils.mixins.json"
 
 [[mixins]]
-config="quickshulker-compat.mixins.json"
+    config="quickshulker-compat.mixins.json"
 
 [[accessTransformers]]
-file="META-INF/accesstransformer.cfg"
+    file="META-INF/accesstransformer.cfg"
 
 [[dependencies.${mod_id}]]
     modId="minecraft"
