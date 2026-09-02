@@ -20,6 +20,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.*;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -74,6 +75,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
             new QuickOpenableRegistry.Builder()
                     .setItem(ShulkerBoxBlock.class)
                     .supportsBundleing(true)
+                    .getSound(((stack, isOpenSound) -> isOpenSound ? SoundEvents.BLOCK_SHULKER_BOX_OPEN : SoundEvents.BLOCK_SHULKER_BOX_CLOSE))
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             new ShulkerBoxScreenHandler(i, player.getInventory(), new ItemStackInventory(stack, 27)), stack.getComponents().contains(DataComponentTypes.CUSTOM_NAME) ? stack.getName() : Text.translatable("container.shulkerBox")))))
                     .register();
@@ -83,6 +85,7 @@ public class QuickShulkerMod implements ModInitializer, RegisterQuickShulker {
                     .setItem(EnderChestBlock.class)
                     .supportsBundleing(true)
                     .ignoreSingleStackCheck(true)
+                    .getSound((stack, isOpenSound) -> isOpenSound ? SoundEvents.BLOCK_ENDER_CHEST_OPEN : SoundEvents.BLOCK_ENDER_CHEST_CLOSE)
                     .setOpenAction(((player, stack) -> player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->
                             GenericContainerScreenHandler.createGeneric9x3(i, playerInventory, player.getEnderChestInventory()), Text.translatable("container.enderchest")))))
                     .register();
