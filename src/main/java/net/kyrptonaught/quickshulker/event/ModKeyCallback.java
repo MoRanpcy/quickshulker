@@ -12,13 +12,19 @@ public class ModKeyCallback {
 
     public static void onKeyPressed(ClientLevel clientWorld){
         Minecraft mc = Minecraft.getInstance();
+        if(mc.gui.screen() == null){
+            handleKeyPressed(mc);
+        }
+    }
+
+    private static void handleKeyPressed(Minecraft mc){
         ConfigOptions configs = QuickShulkerMod.getConfig();
-        if(configs.openSettingGui.wasPressed()){
+        if (configs.openSettingGui.isKeybindPressed()){
             mc.gui.setScreen(ModConfigMenu.getModConfigMenu(mc.gui.screen()));
         }
         if (configs.keybinding.isKeybindPressed()) {
             Player player = mc.player;
-            if (mc.gui.screen() == null && QuickShulkerMod.getConfig().keybind && player != null && !player.isSpectator()) {
+            if (QuickShulkerMod.getConfig().keybind && player != null && !player.isSpectator()) {
                 if (player.getMainHandItem().isEmpty() && !player.getOffhandItem().isEmpty())
                     ClientUtil.CheckAndSend(player.getOffhandItem(), 45);
                 else

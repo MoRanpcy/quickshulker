@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -74,6 +75,11 @@ public class QuickOpenableRegistry {
 
         public Builder setOpenAction(BiConsumer<Player, ItemStack> openAction) {
             qsdata.openConsumer = openAction;
+            return this;
+        }
+
+        public Builder getSound(BiFunction<ItemStack, Boolean, SoundEvent> getSound){
+            qsdata.soundGetter = getSound;
             return this;
         }
 
