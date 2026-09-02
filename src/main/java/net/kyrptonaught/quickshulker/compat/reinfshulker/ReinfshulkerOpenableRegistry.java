@@ -14,9 +14,12 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandlerFactory;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 public class ReinfshulkerOpenableRegistry{
 
@@ -35,10 +38,13 @@ public class ReinfshulkerOpenableRegistry{
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory(screenHandlerFactory, text));
     };
 
+    private static final BiFunction<ItemStack, Boolean, SoundEvent> REINFORCED_SHULKER_BOX_FUNCTION = (ItemStack stack, Boolean isOpenSound) -> isOpenSound ? SoundEvents.BLOCK_SHULKER_BOX_OPEN : SoundEvents.BLOCK_SHULKER_BOX_CLOSE;
+
     public static void registerProviders() {
         new QuickOpenableRegistry.Builder()
                 .setItem(ReinforcedShulkerBoxBlock.class)
                 .supportsBundleing(true)
+                .getSound(REINFORCED_SHULKER_BOX_FUNCTION)
                 .setOpenAction(REINFORCED_SHULKER_BOX_CONSUMER)
                 .register();
     }

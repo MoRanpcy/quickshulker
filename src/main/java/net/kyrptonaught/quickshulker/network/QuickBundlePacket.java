@@ -14,7 +14,9 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
@@ -99,10 +101,10 @@ public record QuickBundlePacket(int slotId, ItemStack stackToBundle) implements 
             PayloadTypeRegistry.playC2S().register(UnbundlePacket.QUICK_UNBUNDLE_PACKET_ID, UnbundlePacket.CODEC);
             ServerPlayNetworking.registerGlobalReceiver(UnbundlePacket.QUICK_UNBUNDLE_PACKET_ID, (payload, context) -> {
                 if (context.player().isCreative()) {
-                    context.server().execute(() -> {
-                        Slot unbundleSlot = context.player().currentScreenHandler.getSlot(payload.slotId);
-                        BundleHelper.unbundleItem(context.player(), payload.unbundleStack, unbundleSlot);
-                    });
+                    ServerPlayerEntity player = context.player();
+                    ScreenHandler handler = player.currentScreenHandler;
+                    Slot unbundleSlot = handler.getSlot(handler.getSlotIndex(player.getInventory(), payload.slotId).getAsInt());
+                    BundleHelper.unbundleItem(player, payload.unbundleStack, unbundleSlot);
                 }
             });
         }
