@@ -3,7 +3,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = project.mod_version
+version = "${mod_version}-${minecraft_version}"
 group = project.maven_group
 
 base {
@@ -42,7 +42,7 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.mod_version
+	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
 		expand (

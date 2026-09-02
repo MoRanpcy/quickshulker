@@ -73,7 +73,7 @@ public class BundleItemScreenHandler extends ScreenHandler {
             ItemStack itemStack2 = slot2.getStack();
             itemStack = itemStack2.copy();
             if(slot < this.inventory.size()){
-                if(!this.insertItem(itemStack2, this.inventory.size(), this.slots.size(), true, slot2)){
+                if(!this.insertItem(itemStack2, this.inventory.size(), this.slots.size(), true)){
                     return ItemStack.EMPTY;
                 }
             }else{
@@ -92,77 +92,6 @@ public class BundleItemScreenHandler extends ScreenHandler {
             }
         }
         return itemStack;
-    }
-
-    // Copied from ScreenHandler.insertItem(), and modified a little bit.
-    protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean fromLast, Slot originSlot){
-        boolean bl = false;
-        int i = startIndex;
-        if (fromLast) {
-            i = endIndex - 1;
-        }
-
-        if (stack.isStackable()) {
-            while (!stack.isEmpty() && (fromLast ? i >= startIndex : i < endIndex)) {
-                Slot slot = this.slots.get(i);
-                ItemStack itemStack = slot.getStack();
-                if (!itemStack.isEmpty() && ItemStack.areItemsAndComponentsEqual(stack, itemStack)) {
-                    int j = itemStack.getCount() + stack.getCount();
-                    int k = slot.getMaxItemCount(itemStack);
-                    if (j <= k) {
-                        stack = ItemStack.EMPTY;
-                        originSlot.setStack(ItemStack.EMPTY);
-                        itemStack.setCount(j);
-                        slot.markDirty();
-                        bl = true;
-                    } else if (itemStack.getCount() < k) {
-                        stack.decrement(k - itemStack.getCount());
-                        itemStack.setCount(k);
-                        slot.markDirty();
-                        bl = true;
-                    }
-                }
-
-                if (fromLast) {
-                    i--;
-                } else {
-                    i++;
-                }
-            }
-        }
-
-        if (!stack.isEmpty()) {
-            if (fromLast) {
-                i = endIndex - 1;
-            } else {
-                i = startIndex;
-            }
-
-            while (fromLast ? i >= startIndex : i < endIndex) {
-                Slot slotx = this.slots.get(i);
-                ItemStack itemStackx = slotx.getStack();
-                if (itemStackx.isEmpty() && slotx.canInsert(stack)) {
-                    int j = slotx.getMaxItemCount(stack);
-                    if(stack.getCount() <= j){
-                        slotx.setStack(stack);
-                        originSlot.setStack(ItemStack.EMPTY);
-                    }else {
-                        slotx.setStack(stack.split(j));
-                    }
-                    slotx.markDirty();
-                    bl = true;
-                    break;
-                }
-
-                if (fromLast) {
-                    i--;
-                } else {
-                    i++;
-                }
-            }
-        }
-
-        return bl;
     }
 
     @Override
@@ -209,7 +138,7 @@ public class BundleItemScreenHandler extends ScreenHandler {
             if(!BundleContentsComponent.canBeBundled(stack)){
                 return false;
             }else{
-                BundleContentsComponent contents = ((BundleInventory) BundleItemScreenHandler.this.inventory).getBundleContents();
+                BundleContentsComponent contents = ((BundleInventory) BundleItemScreenHandler.this.inventory).getBundleContentsByStacks();
                 if(contents == null) return false;
                 BundleContentsComponent.Builder builder = new BundleContentsComponent.Builder(contents);
                 ItemStack stackInSlot = this.getStack();

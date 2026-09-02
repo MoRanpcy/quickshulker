@@ -70,10 +70,10 @@ public class KeybindItem extends ConfigItem<String> {
             }
             if(duplicate){
                 keyButton.setMessage(Text.literal("[ ").append(getCleanName(this.value).formatted(Formatting.WHITE)).append(Text.literal(" ]")).formatted(Formatting.YELLOW));
-                keyButton.setTooltip(Tooltip.of(Text.translatable("key.quickshulker.config.savedValue", Text.literal(this.value)).append(Text.translatable("key.quickshulker.config.keybindinsConflict", mutableText))));
+                keyButton.setTooltip(Tooltip.of(Text.translatable("key.kyrptconfig.config.savedValue", Text.literal(this.value)).append(Text.translatable("key.kyrptconfig.config.keybindinsConflict", mutableText))));
             }else{
                 keyButton.setMessage(this.getCleanName(this.value));
-                keyButton.setTooltip(Tooltip.of(Text.translatable("key.quickshulker.config.savedValue", Text.literal(this.value))));
+                keyButton.setTooltip(Tooltip.of(Text.translatable("key.kyrptconfig.config.savedValue", Text.literal(this.value))));
             }
         }else{
             keyButton.setMessage(Text.literal("> ").append(getCleanName(this.value)).append(Text.literal(" <")));

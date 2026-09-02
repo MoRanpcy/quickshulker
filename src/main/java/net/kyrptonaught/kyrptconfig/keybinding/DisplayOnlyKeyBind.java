@@ -2,7 +2,6 @@ package net.kyrptonaught.kyrptconfig.keybinding;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
 
 import java.util.function.Consumer;
 
@@ -19,6 +18,10 @@ public class DisplayOnlyKeyBind extends KeyBinding {
     public DisplayOnlyKeyBind(String translationKey, KeyBinding.Category category, CustomKeyBinding customKeyBinding, Consumer<InputUtil.Key> keySet) {
         super(translationKey, customKeyBinding.getDefaultKey().getCategory(), customKeyBinding.getDefaultKey().getCode(), category);
         this.customKeyBinding = customKeyBinding;
+        this.customKeyBinding.setConsumer(key -> {
+            if(!this.boundKey.equals(customKeyBinding.getKeybinding().get()))
+                this.updateSetKey();
+        });
         this.keySet = keySet;
         updateSetKey();
     }
@@ -36,19 +39,16 @@ public class DisplayOnlyKeyBind extends KeyBinding {
 
     @Override
     public KeyBinding.Category getCategory() {
-        updateSetKey();
         return super.getCategory();
     }
 
     @Override
     public String getId() {
-        updateSetKey();
         return super.getId();
     }
 
     @Override
     public InputUtil.Key getDefaultKey() {
-        updateSetKey();
         return super.getDefaultKey();
     }
 }
