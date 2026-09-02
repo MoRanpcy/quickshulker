@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class CustomKeyBinding implements CustomSerializable {
     public boolean unknownIsActivated = false;
@@ -16,6 +17,7 @@ public class CustomKeyBinding implements CustomSerializable {
     public InputConstants.Key parsedKey;
     public boolean doParseKey = true;
     private final String MOD_ID;
+    protected Consumer<CustomKeyBinding> keyUpdate;
 
     public CustomKeyBinding(String MOD_ID) {
         this.MOD_ID = MOD_ID;
@@ -34,6 +36,7 @@ public class CustomKeyBinding implements CustomSerializable {
 
     public CustomKeyBinding setRaw(String key) {
         rawKey = key;
+        this.runConsumer(this);
         doParseKey = true;
         holding = false;
         return this;
@@ -98,6 +101,16 @@ public class CustomKeyBinding implements CustomSerializable {
         } catch (IllegalArgumentException e) {
             System.out.println(MOD_ID + ": unknown default key entered");
             return InputConstants.UNKNOWN;
+        }
+    }
+
+    public void setConsumer(Consumer<CustomKeyBinding> keyUpdate){
+        this.keyUpdate = keyUpdate;
+    }
+
+    public void runConsumer(CustomKeyBinding key){
+        if(this.keyUpdate != null){
+            keyUpdate.accept(this);
         }
     }
 

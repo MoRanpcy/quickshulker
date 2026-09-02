@@ -17,6 +17,10 @@ public class DisplayOnlyKeyBind extends KeyMapping {
     public DisplayOnlyKeyBind(String translationKey, KeyMapping.Category category, CustomKeyBinding customKeyBinding, Consumer<InputConstants.Key> keySet) {
         super(translationKey, customKeyBinding.getDefaultKey().getType(), customKeyBinding.getDefaultKey().getValue(), category);
         this.customKeyBinding = customKeyBinding;
+        this.customKeyBinding.setConsumer(key -> {
+            if(!this.key.equals(customKeyBinding.getKeybinding().get()))
+                this.updateSetKey();
+        });
         this.keySet = keySet;
         updateSetKey();
     }
@@ -34,19 +38,16 @@ public class DisplayOnlyKeyBind extends KeyMapping {
 
     @Override
     public KeyMapping.Category getCategory() {
-        updateSetKey();
         return super.getCategory();
     }
 
     @Override
     public String getName() {
-        updateSetKey();
         return super.getName();
     }
 
     @Override
     public InputConstants.Key getDefaultKey() {
-        updateSetKey();
         return super.getDefaultKey();
     }
 }

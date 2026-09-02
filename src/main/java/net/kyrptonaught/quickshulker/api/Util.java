@@ -3,6 +3,8 @@ package net.kyrptonaught.quickshulker.api;
 import net.kyrptonaught.quickshulker.QuickShulkerMod;
 import net.kyrptonaught.quickshulker.network.OpenInventoryPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -30,6 +32,7 @@ public class Util {
         QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
         if (qsData != null) {
             qsData.openConsumer.accept(player, stack);
+            if(QuickShulkerMod.getConfig().playSound) playSound(player, qsData.getSound(stack, true));
             ((ItemInventoryContainer) player.containerMenu).setUsedSlot(playerInvIndex);
             player.containerMenu.addSlotListener(forceCloseScreenIfNotPresent(player, playerInvIndex, stack.copy()));
         }
@@ -56,6 +59,29 @@ public class Util {
             return qsData.canOpenInHand;
         }
         return false;
+    }
+
+    public static void playOpenSound(Player player, int selectedInvIndex){
+        ItemStack stack = player.getInventory().getItem(selectedInvIndex);
+        QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
+        if (qsData != null) {
+            playSound(player, qsData.getSound(stack, true));
+        }
+    }
+
+    public static void playCloseSound(Player player, int selectedInvIndex){
+        ItemStack stack = player.getInventory().getItem(selectedInvIndex);
+        QuickShulkerData qsData = QuickOpenableRegistry.getQuickie(stack.getItem());
+        if (qsData != null) {
+            playSound(player, qsData.getSound(stack, false));
+        }
+    }
+
+    public static void playSound(Player player, SoundEvent sound){
+        if(sound != null){
+//            player.level().playSound(null, player.blockPosition(), sound, player.getSoundSource());
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), sound, SoundSource.BLOCKS);
+        }
     }
 
     public static boolean areItemsEqualExactly(ItemStack stack, ItemStack otherStack) {

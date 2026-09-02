@@ -2,6 +2,7 @@ package net.kyrptonaught.quickshulker.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.api.UpdateChecker;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.kyrptonaught.quickshulker.config.ModConfigMenu;
@@ -12,5 +13,10 @@ public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return ModConfigMenu::getModConfigMenu;
+    }
+
+    @Override
+    public UpdateChecker getUpdateChecker() {
+        return ModUpdateChecker::checkForUpdates;
     }
 }

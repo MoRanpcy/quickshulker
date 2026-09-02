@@ -7,7 +7,7 @@ base {
 	archivesName = project.archives_base_name
 }
 
-version = project.mod_version
+version = "${mod_version}-${minecraft_version}"
 group = project.maven_group
 
 
@@ -18,6 +18,7 @@ loom {
 repositories {
 	maven { url 'https://maven.fabricmc.net' }
 	maven { url 'https://cursemaven.com' }
+	maven { url "https://api.modrinth.com/maven" }
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url 'https://maven.fallenbreath.me/releases' }
 	maven { url 'https://jitpack.io' }
@@ -33,7 +34,7 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	implementation ("com.terraformersmc:modmenu:18.0.0-alpha.8") { exclude group: "net.fabricmc.fabric-api" }
+	implementation ("com.terraformersmc:modmenu:18.0.0") { exclude group: "net.fabricmc.fabric-api" }
 //	modImplementation ("curse.maven:reinforced-shulker-boxes-529874:7225066") { exclude group: "net.fabricmc.fabric-api" }
 //	modImplementation "atonkish.reinfcore:reinforced-core:4.0.8+1.21.10"
 
