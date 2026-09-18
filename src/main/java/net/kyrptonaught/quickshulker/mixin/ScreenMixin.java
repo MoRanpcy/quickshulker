@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDLMouse;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -41,7 +41,7 @@ public abstract class ScreenMixin {
     @Inject(method = "init", at = @At("TAIL"))
     private void fixMouse(CallbackInfo ci) {
         if (QuickShulkerMod.lastMouseX != 0 && QuickShulkerMod.lastMouseY != 0) {
-            GLFW.glfwSetCursorPos(Minecraft.getInstance().getWindow().handle(), QuickShulkerMod.lastMouseX, QuickShulkerMod.lastMouseY);
+            SDLMouse.SDL_WarpMouseInWindow(Minecraft.getInstance().getWindow().handle(), (float) QuickShulkerMod.lastMouseX, (float) QuickShulkerMod.lastMouseY);
             QuickShulkerMod.lastMouseY = 0;
             QuickShulkerMod.lastMouseX = 0;
         }
@@ -51,7 +51,7 @@ public abstract class ScreenMixin {
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void QS$keyPressed(KeyEvent input, CallbackInfoReturnable<Boolean> cir) {
         if (QuickShulkerMod.getConfig().keybingInInv) {
-            if (QuickShulkerModClient.getKeybinding().matches(input.input(), InputConstants.Type.KEYSYM)) {
+            if (QuickShulkerModClient.getKeybinding().matches(input.input(), InputConstants.Type.KEYBOARD)) {
                 if (handleTrigger())
                     cir.setReturnValue(true);
             }
@@ -61,7 +61,7 @@ public abstract class ScreenMixin {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void QS$mousePressed(MouseButtonEvent click, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
         if (QuickShulkerMod.getConfig().rightClickInv) {
-            if (this.menu.getCarried().isEmpty() && click.button() == 1 && this.hoveredSlot != null && this.hoveredSlot.getItem().getCount() == 1) {
+            if (this.menu.getCarried().isEmpty() && click.button() == SDLMouse.SDL_BUTTON_RIGHT && this.hoveredSlot != null && this.hoveredSlot.getItem().getCount() == 1) {
                 if (handleTrigger()) {
                     this.skipNextRelease = true;
                     cir.setReturnValue(true);

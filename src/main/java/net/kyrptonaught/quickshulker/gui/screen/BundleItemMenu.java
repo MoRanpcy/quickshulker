@@ -138,7 +138,7 @@ public class BundleItemMenu extends AbstractContainerMenu {
             }else{
                 BundleContents contents = ((BundleContainer) BundleItemMenu.this.container).getBundleContentsByItems();
                 if(contents == null) return false;
-                BundleContents.Mutable builder = new BundleContents.Mutable(contents);
+                BundleContents.Mutable builder = contents.asMutable();
                 ItemStack stackInSlot = this.getItem();
                 if(stackInSlot.isEmpty() || ItemStack.isSameItemSameComponents(stackInSlot, stack)){
                     DataResult<Fraction> maybeItemWeight = BundleContents.getWeight(stack);
