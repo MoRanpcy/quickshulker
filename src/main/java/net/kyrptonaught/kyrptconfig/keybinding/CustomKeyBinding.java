@@ -4,9 +4,9 @@ import net.kyrptonaught.jankson.JsonElement;
 import net.kyrptonaught.jankson.JsonPrimitive;
 import net.kyrptonaught.kyrptconfig.config.CustomMarshaller;
 import net.kyrptonaught.kyrptconfig.config.CustomSerializable;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.glfw.GLFW;
 import com.mojang.blaze3d.platform.InputConstants;
+import org.lwjgl.sdl.SDLMouse;
+
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -70,9 +70,9 @@ public class CustomKeyBinding implements CustomSerializable {
             return unknownIsActivated; // Always pressed for empty or explicitly "key.keyboard.unknown"
         boolean pressed;
         if (parsedKey.getType() == InputConstants.Type.MOUSE)
-            pressed = GLFW.glfwGetMouseButton(Minecraft.getInstance().getWindow().handle(), parsedKey.getValue()) == 1;
+            pressed = 1 << (parsedKey.getValue() - 1) == SDLMouse.SDL_GetMouseState(null, null);
         else
-            pressed = GLFW.glfwGetKey(Minecraft.getInstance().getWindow().handle(), parsedKey.getValue()) == 1;
+            pressed = InputConstants.isKeyDown(parsedKey.getValue());
         return pressed;
     }
 
