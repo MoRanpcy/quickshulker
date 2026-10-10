@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.sdl.SDLMouse;
 
 public class BundleItemScreen extends AbstractContainerScreen<BundleItemMenu> {
     private static final Identifier SCROLLER_TEXTURE = Identifier.withDefaultNamespace("container/creative_inventory/scroller");
@@ -66,7 +67,7 @@ public class BundleItemScreen extends AbstractContainerScreen<BundleItemMenu> {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
-        if(click.button() == 0){
+        if(click.button() == SDLMouse.SDL_BUTTON_LEFT){
             if(this.isClickInScrollbar(click.x(), click.y())){
                 return this.scrolling = true;
             }
@@ -84,7 +85,7 @@ public class BundleItemScreen extends AbstractContainerScreen<BundleItemMenu> {
 
     @Override
     public boolean mouseReleased(MouseButtonEvent click) {
-        if(click.button() == 0){
+        if(click.button() == SDLMouse.SDL_BUTTON_LEFT){
             this.scrolling = false;
         }
 
