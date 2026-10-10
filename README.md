@@ -36,7 +36,7 @@ Click the links below to download.
 
 * [3.1.0-26.1](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.0-26.1/quickshulker-3.1.0-26.1.jar)
 * [3.1.0-26.2](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.0-26.2/quickshulker-3.1.0-26.2.jar)
-* [3.1.0-26.3](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.0-26.3/quickshulker-3.1.0-26.3.jar)
+* [3.1.1-26.3](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.1-26.3/quickshulker-3.1.1-26.3.jar)
 
 </details>
 
@@ -49,7 +49,7 @@ Click the links below to download.
 
 * [3.1.0-26.1](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.0-26.1-neo/quickshulker-neo-3.1.0-26.1.jar)
 * [3.1.0-26.2](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.0-26.2-neo/quickshulker-neo-3.1.0-26.2.jar)
-* [3.1.0-26.3](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.0-26.3-neo/quickshulker-neo-3.1.0-26.3.jar)
+* [3.1.1-26.3](https://github.com/MoRanpcy/quickshulker/releases/download/3.1.1-26.3-neo/quickshulker-neo-3.1.1-26.3.jar)
 
 </details>
 

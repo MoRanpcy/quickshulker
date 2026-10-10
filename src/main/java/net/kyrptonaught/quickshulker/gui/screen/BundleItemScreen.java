@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import org.lwjgl.sdl.SDLMouse;
 
 @Environment(EnvType.CLIENT)
 public class BundleItemScreen extends AbstractContainerScreen<BundleItemMenu> {
@@ -66,7 +67,7 @@ public class BundleItemScreen extends AbstractContainerScreen<BundleItemMenu> {
 
     @Override
     public boolean mouseClicked(MouseButtonEvent click, boolean doubled) {
-        if(click.button() == 0){
+        if(click.button() == SDLMouse.SDL_BUTTON_LEFT){
             if(this.isClickInScrollbar(click.x(), click.y())){
                 return this.scrolling = true;
             }
@@ -84,7 +85,7 @@ public class BundleItemScreen extends AbstractContainerScreen<BundleItemMenu> {
 
     @Override
     public boolean mouseReleased(MouseButtonEvent click) {
-        if(click.button() == 0){
+        if(click.button() == SDLMouse.SDL_BUTTON_LEFT){
             this.scrolling = false;
         }
 

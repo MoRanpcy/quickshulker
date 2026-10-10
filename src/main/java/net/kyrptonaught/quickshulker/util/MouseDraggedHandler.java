@@ -16,6 +16,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.sdl.SDLMouse;
+
 import java.util.Set;
 
 public class MouseDraggedHandler {
@@ -43,7 +45,7 @@ public class MouseDraggedHandler {
     public static boolean beforeMouseClick(AbstractContainerScreen<?> screen, MouseButtonEvent click){
         if(!QuickShulkerMod.getConfig().supportsMouseDragged) return false;
         Slot slot = ((HandledScreenInvoker) screen).QS$getSlotAt(click.x(), click.y());
-        if(slot != null && click.button() == 1){
+        if(slot != null && click.button() == SDLMouse.SDL_BUTTON_RIGHT){
             Minecraft client = ((ScreenAccessor) screen).getClient();
             ItemStack itemStack  = screen.getMenu().getCarried();
             Container inv = Util.getQuickItemInventory(client.player, itemStack);
@@ -66,7 +68,7 @@ public class MouseDraggedHandler {
             Minecraft client = ((ScreenAccessor) screen).getClient();
             AbstractContainerMenu handler = screen.getMenu();
             ItemStack itemStack = handler.getCarried();
-            if(click.button() != 1){
+            if(click.button() != SDLMouse.SDL_BUTTON_RIGHT){
                 dragMode = null;
                 DRAGGED_SLOTS.clear();
                 return false;
@@ -76,13 +78,13 @@ public class MouseDraggedHandler {
                 if(dragMode == DragMode.BUNDLE){
                     if(slot.hasItem() && canInsertIntoContainer(client.player, itemStack, slot.getItem()) && !ShulkerUtils.isShulkerItem(slot.getItem()) && !DRAGGED_SLOTS.contains(slot)){
                         DRAGGED_SLOTS.add(slot);
-                        ((HandledScreenInvoker) screen).QS$onMouseClick(slot, slot.index, click.button(), ContainerInput.PICKUP);
+                        ((HandledScreenInvoker) screen).QS$onMouseClick(slot, slot.index, click, ContainerInput.PICKUP);
                         result = true;
                     }
                 }else{
                     if(!slot.hasItem() && !isContainerEmpty(client.player, itemStack) && !DRAGGED_SLOTS.contains(slot)){
                         DRAGGED_SLOTS.add(slot);
-                        ((HandledScreenInvoker) screen).QS$onMouseClick(slot, slot.index, click.button(), ContainerInput.PICKUP);
+                        ((HandledScreenInvoker) screen).QS$onMouseClick(slot, slot.index, click, ContainerInput.PICKUP);
                         result = true;
                     }
                 }
@@ -95,7 +97,7 @@ public class MouseDraggedHandler {
         if(!QuickShulkerMod.getConfig().supportsMouseDragged) return false;
         if(dragMode != null){
             dragMode = null;
-            if(click.button() == 1 && !DRAGGED_SLOTS.isEmpty()){
+            if(click.button() == SDLMouse.SDL_BUTTON_RIGHT && !DRAGGED_SLOTS.isEmpty()){
                 DRAGGED_SLOTS.clear();
                 return true;
             }
